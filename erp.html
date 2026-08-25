@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ERP Portal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        paper: { DEFAULT: '#F6F1E7', card: '#FFFDF8', deep: '#EDE5D6' },
+        ink:   { DEFAULT: '#14243D', soft: '#2E4160', mute: '#6B7A90' },
+        terra: { DEFAULT: '#B5462A', light: '#E8CFC5' },
+        moss:  { DEFAULT: '#17604A', light: '#CFE0D8' },
+        gold:  { DEFAULT: '#B0801F', light: '#F0E2BE' },
+        rule:  '#DCD3C2'
+      },
+      fontFamily: {
+        display: ['"Tiro Bangla"', 'Georgia', 'serif'],
+        sans:    ['"Hind Siliguri"', 'system-ui', 'sans-serif'],
+        mono:    ['"IBM Plex Mono"', 'monospace']
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  body { background-color:#F6F1E7;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E"); }
+
+  .card { background:#FFFDF8; border:1px solid #DCD3C2;
+          box-shadow:0 1px 0 #EDE5D6, 0 8px 24px -18px rgba(20,36,61,.45); }
+  .rule-double { border-bottom:3px double #DCD3C2; }
+
+  @keyframes riseIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+  .rise { animation: riseIn .45s cubic-bezier(.2,.7,.3,1) both; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { animation: spin .7s linear infinite; }
+
+  /* Role selector cards */
+  .role-card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .role-card:hover { transform: translateY(-3px);
+                     box-shadow:0 14px 34px -20px rgba(20,36,61,.55); border-color:#B5462A; }
+  .role-card:focus-visible { outline:2px solid #B5462A; outline-offset:3px; }
+
+  .nav-link { position:relative; }
+  .nav-link::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:3px;
+                      background:#B5462A; transform:scaleY(0); transition:transform .2s ease; }
+  .nav-link.active::before, .nav-link:hover::before { transform:scaleY(1); }
+  .nav-link.active { background:rgba(255,253,248,.07); color:#FFFDF8; }
+
+  table.data th { font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+                  font-weight:600; color:#6B7A90; }
+  table.data tbody tr:nth-child(even) { background:rgba(237,229,214,.32); }
+  table.data tbody tr:hover { background:rgba(232,207,197,.35); }
+
+  .pill { font-size:11px; letter-spacing:.04em; padding:2px 9px; border-radius:999px; font-weight:600; }
+
+  input,select,textarea { transition:border-color .15s, box-shadow .15s; }
+  input:focus,select:focus,textarea:focus { outline:none; border-color:#14243D;
+                                            box-shadow:0 0 0 3px rgba(20,36,61,.10); }
+
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-track { background:#EDE5D6; }
+  ::-webkit-scrollbar-thumb { background:#C9BFA9; border-radius:6px; }
+
+  [hidden] { display:none !important; }
+</style>
+</head>
+
+<body class="font-sans text-ink antialiased">
+
+<!-- ══════════════════════════════════════════ 1. ROLE SELECTOR ════════ -->
+<div id="roleScreen" class="min-h-screen flex flex-col">
+  <header class="border-b border-rule">
+    <div class="max-w-5xl mx-auto px-5 h-[72px] flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <span class="w-10 h-10 border-2 border-terra flex items-center justify-center
+                     font-display text-terra text-xl">ব</span>
+        <span>
+          <span id="roleSchoolBn" class="block font-display text-base leading-tight">বিদ্যালয়</span>
+          <span id="roleSchoolEn" class="block font-mono text-[10px] tracking-[.14em]
+                uppercase text-ink-mute">School</span>
+        </span>
+      </a>
+      <a href="index.html" class="text-sm text-ink-mute hover:text-terra transition">← Back to website</a>
+    </div>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center px-5 py-14">
+    <div class="w-full max-w-4xl">
+      <div class="text-center mb-12 rise">
+        <p class="font-mono text-[11px] tracking-[.22em] uppercase text-terra mb-4">ERP Portal</p>
+        <h1 class="font-display text-4xl lg:text-5xl mb-3">Who is signing in?</h1>
+        <p class="text-ink-mute">আপনি কোন পোর্টালে প্রবেশ করছেন তা নির্বাচন করুন</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <!-- Choosing the portal first is not cosmetic: it tells the backend
+             which of the three user sheets to read, so login stays fast. -->
+        <button data-role="STUDENT"
+                class="role-pick role-card card p-8 text-left rise" style="animation-delay:.05s">
+          <div class="w-11 h-11 mb-5 border border-moss text-moss flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 14l9-5-9-5-9 5 9 5zM12 14v7M5 11v5a7 3 0 0014 0v-5"/></svg>
+          </div>
+          <h2 class="font-display text-2xl mb-1">Student</h2>
+          <p class="font-display text-sm text-ink-mute mb-4">শিক্ষার্থী</p>
+          <p class="text-sm text-ink-soft leading-relaxed">
+            Results, report cards, fees and notices for your own account.
+          </p>
+          <p class="mt-5 font-mono text-[10px] tracking-[.14em] uppercase text-terra">
+            Sign in →</p>
+        </button>
+
+        <button data-role="TEACHER"
+                class="role-pick role-card card p-8 text-left rise" style="animation-delay:.12s">
+          <div class="w-11 h-11 mb-5 border border-terra text-terra flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
+          </div>
+          <h2 class="font-display text-2xl mb-1">Teacher</h2>
+          <p class="font-display text-sm text-ink-mute mb-4">শিক্ষক</p>
+          <p class="text-sm text-ink-soft leading-relaxed">
+            Your classes, mark entry for assigned subjects, and staff notices.
+          </p>
+          <p class="mt-5 font-mono text-[10px] tracking-[.14em] uppercase text-terra">
+            Sign in →</p>
+        </button>
+
+        <button data-role="ADMIN"
+                class="role-pick role-card card p-8 text-left rise" style="animation-delay:.19s">
+          <div class="w-11 h-11 mb-5 border border-ink text-ink flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7l8-4z"/></svg>
+          </div>
+          <h2 class="font-display text-2xl mb-1">Admin</h2>
+          <p class="font-display text-sm text-ink-mute mb-4">প্রশাসক</p>
+          <p class="text-sm text-ink-soft leading-relaxed">
+            Students, staff, fees, notices, website content and login accounts.
+          </p>
+          <p class="mt-5 font-mono text-[10px] tracking-[.14em] uppercase text-terra">
+            Sign in →</p>
+        </button>
+      </div>
+
+      <p class="text-center text-xs text-ink-mute mt-10">
+        Usernames are issued by the school office. Email addresses are not used to sign in.
+      </p>
+    </div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════ 2. LOGIN FORM ═══════════ -->
+<div id="loginScreen" hidden class="min-h-screen grid lg:grid-cols-5">
+  <aside class="lg:col-span-2 bg-ink text-paper-card relative overflow-hidden
+                flex flex-col justify-between p-8 lg:p-12">
+    <div class="absolute inset-0 opacity-[.07]"
+         style="background-image:radial-gradient(circle at 1px 1px,#FFFDF8 1px,transparent 0);
+                background-size:22px 22px;"></div>
+    <div class="relative">
+      <button id="backToRoles" class="text-sm text-paper-card/60 hover:text-terra transition">
+        ← Choose a different portal
+      </button>
+    </div>
+    <div class="relative">
+      <p id="loginRoleLabel" class="font-mono text-[11px] tracking-[.22em] text-terra uppercase mb-4">
+        Portal</p>
+      <h1 id="loginHeading" class="font-display text-4xl lg:text-5xl leading-tight mb-3">Sign in</h1>
+      <p id="loginHeadingBn" class="font-display text-xl text-paper-card/60"></p>
+      <div class="mt-8 w-16 h-px bg-terra"></div>
+      <p class="mt-6 text-sm text-paper-card/50 max-w-sm leading-relaxed">
+        Each portal has its own account list. You will only see the records that belong to you.
+      </p>
+    </div>
+    <p class="relative font-mono text-[10px] tracking-wider text-paper-card/30">
+      SESSION SECURED · ASIA/DHAKA</p>
+  </aside>
+
+  <main class="lg:col-span-3 flex items-center justify-center p-6 lg:p-16">
+    <div class="w-full max-w-sm rise">
+      <h2 class="font-display text-3xl mb-1">Welcome back</h2>
+      <p class="text-sm text-ink-mute mb-8">Use the username issued by the school office.</p>
+
+      <div id="loginError" hidden
+           class="mb-5 px-4 py-3 text-sm bg-terra-light border-l-4 border-terra"></div>
+
+      <form id="loginForm" class="space-y-5" novalidate>
+        <div>
+          <label for="username"
+                 class="block text-[11px] font-mono tracking-[.14em] uppercase text-ink-mute mb-2">
+            Username</label>
+          <input id="username" type="text" autocomplete="username" required
+                 class="w-full bg-paper-card border border-rule px-4 py-3 text-[15px]"
+                 placeholder="">
+          <p id="usernameHint" class="mt-1.5 text-xs text-ink-mute"></p>
+        </div>
+        <div>
+          <label for="password"
+                 class="block text-[11px] font-mono tracking-[.14em] uppercase text-ink-mute mb-2">
+            Password</label>
+          <input id="password" type="password" autocomplete="current-password" required
+                 class="w-full bg-paper-card border border-rule px-4 py-3 text-[15px]"
+                 placeholder="••••••••">
+        </div>
+        <button id="loginBtn" type="submit"
+                class="w-full bg-ink text-paper-card py-3.5 text-sm font-semibold tracking-wide
+                       hover:bg-ink-soft active:translate-y-px transition disabled:opacity-50">
+          <span id="loginBtnText">Sign in</span>
+        </button>
+      </form>
+
+      <p class="mt-8 text-xs text-ink-mute text-center">
+        Forgotten your password? The school office can reset it.
+      </p>
+      <p class="mt-2 text-center">
+        <a href="index.html" class="text-xs text-terra hover:underline">← Back to the website</a>
+      </p>
+    </div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════ 3. APP SHELL ════════════ -->
+<div id="appShell" hidden class="min-h-screen lg:flex">
+
+  <div class="lg:hidden sticky top-0 z-40 bg-ink text-paper-card flex items-center
+              justify-between px-4 h-14">
+    <button id="menuToggle" aria-label="Menu" class="p-2 -ml-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
+        <path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <span class="font-display text-lg" id="mobileTitle">Dashboard</span>
+    <button id="mobileLogout" aria-label="Sign out" class="p-2 -mr-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
+        <path stroke-linecap="round" d="M15 17l5-5-5-5M20 12H9M12 3H5v18h7"/></svg>
+    </button>
+  </div>
+
+  <nav id="sidebar"
+       class="fixed lg:sticky top-0 left-0 z-50 h-screen w-72 bg-ink text-paper-card/70
+              -translate-x-full lg:translate-x-0 transition-transform duration-300
+              flex flex-col shrink-0">
+    <div class="px-6 py-6 border-b border-paper-card/10">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 border border-terra flex items-center justify-center
+                    font-display text-terra shrink-0">ব</div>
+        <div class="min-w-0">
+          <p id="sidebarSchool" class="font-display text-paper-card text-[15px] leading-tight truncate">
+            School</p>
+          <p id="sidebarPortal" class="font-mono text-[10px] tracking-wider text-terra">PORTAL</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto py-4">
+      <p class="px-6 mb-2 font-mono text-[10px] tracking-[.18em] uppercase text-paper-card/30">Menu</p>
+      <ul id="navList" class="space-y-0.5 px-3"></ul>
+    </div>
+
+    <div class="px-6 py-5 border-t border-paper-card/10">
+      <p id="navRole" class="font-mono text-[10px] tracking-[.16em] uppercase text-paper-card/30 mb-1">—</p>
+      <p id="navUser" class="text-paper-card text-sm font-medium truncate">—</p>
+      <div class="flex gap-3 mt-3">
+        <button data-view="profile" class="nav-jump text-xs text-paper-card/60 hover:text-terra transition">
+          Profile</button>
+        <span class="text-paper-card/20">|</span>
+        <a href="index.html" class="text-xs text-paper-card/60 hover:text-terra transition">Website</a>
+        <span class="text-paper-card/20">|</span>
+        <button id="logoutBtn" class="text-xs text-paper-card/60 hover:text-terra transition">
+          Sign out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="scrim" hidden class="lg:hidden fixed inset-0 z-40 bg-ink/50 backdrop-blur-sm"></div>
+
+  <div class="flex-1 min-w-0">
+    <header class="hidden lg:flex items-end justify-between px-10 pt-9 pb-5">
+      <div>
+        <p id="crumb" class="font-mono text-[10px] tracking-[.2em] uppercase text-ink-mute mb-1">
+          Overview</p>
+        <h1 id="pageTitle" class="font-display text-3xl leading-none">Dashboard</h1>
+      </div>
+      <div class="text-right">
+        <p id="todayLabel" class="font-mono text-[11px] text-ink-mute"></p>
+        <p id="yearLabel" class="font-mono text-[11px] text-ink-mute"></p>
+      </div>
+    </header>
+
+    <div class="px-4 lg:px-10 pb-16 pt-4 lg:pt-0">
+      <div id="toast" hidden
+           class="fixed bottom-6 right-6 z-[60] max-w-sm px-5 py-4 text-sm card rise"></div>
+
+      <!-- Dashboard -->
+      <section data-view="dashboard" class="view">
+        <div id="statGrid" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-8"></div>
+        <div class="grid gap-6 lg:grid-cols-3">
+          <div class="lg:col-span-2 card p-6">
+            <h2 class="font-display text-xl mb-4 pb-3 rule-double">Notices</h2>
+            <div id="dashNotices" class="space-y-4"></div>
+          </div>
+          <div class="card p-6">
+            <h2 class="font-display text-xl mb-4 pb-3 rule-double">At a glance</h2>
+            <dl id="dashExtra" class="space-y-3 text-sm"></dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- Students -->
+      <section data-view="students" class="view" hidden>
+        <div class="card p-5 mb-5">
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <select id="stuClass" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <select id="stuSection" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <input id="stuSearch" type="search" placeholder="Name or admission no."
+                   class="bg-paper-card border border-rule px-3 py-2.5 text-sm">
+            <div class="flex gap-2">
+              <button id="stuLoad"
+                class="flex-1 bg-ink text-paper-card px-4 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+                Search</button>
+              <button id="stuAdd" hidden
+                class="px-4 py-2.5 text-sm font-semibold border border-ink hover:bg-ink hover:text-paper-card transition">
+                + New</button>
+            </div>
+          </div>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="overflow-x-auto"><table class="data w-full text-sm">
+            <thead><tr class="border-b border-rule">
+              <th class="text-left px-5 py-3">Roll</th>
+              <th class="text-left px-5 py-3">Name</th>
+              <th class="text-left px-5 py-3 hidden md:table-cell">Bangla name</th>
+              <th class="text-left px-5 py-3 hidden sm:table-cell">Admission</th>
+              <th class="text-left px-5 py-3">Class</th>
+              <th class="text-right px-5 py-3"></th>
+            </tr></thead><tbody id="stuBody"></tbody>
+          </table></div>
+          <div id="stuMeta" class="px-5 py-3 text-xs text-ink-mute border-t border-rule"></div>
+        </div>
+      </section>
+
+      <!-- Teachers -->
+      <section data-view="teachers" class="view" hidden>
+        <div class="card p-5 mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="font-display text-xl">Staff register</h2>
+            <p id="tchMeta" class="text-xs text-ink-mute">—</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="tchAccounts"
+              class="px-4 py-2.5 text-sm font-semibold border border-ink hover:bg-ink hover:text-paper-card transition">
+              Accounts</button>
+            <button id="tchAdd"
+              class="bg-ink text-paper-card px-4 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+              + New teacher</button>
+          </div>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="overflow-x-auto"><table class="data w-full text-sm">
+            <thead><tr class="border-b border-rule">
+              <th class="text-left px-5 py-3">Employee</th>
+              <th class="text-left px-5 py-3">Name</th>
+              <th class="text-left px-5 py-3 hidden md:table-cell">Designation</th>
+              <th class="text-left px-5 py-3 hidden lg:table-cell">Subject</th>
+              <th class="text-left px-5 py-3">Login</th>
+              <th class="text-right px-5 py-3"></th>
+            </tr></thead><tbody id="tchBody"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- Mark entry -->
+      <section data-view="marks" class="view" hidden>
+        <div class="card p-5 mb-5">
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <select id="mkExam" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <select id="mkClass" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <select id="mkSection" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <select id="mkSubject" class="bg-paper-card border border-rule px-3 py-2.5 text-sm"></select>
+            <button id="mkLoad"
+              class="bg-ink text-paper-card px-4 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+              Open mark sheet</button>
+          </div>
+        </div>
+        <div id="mkPanel" hidden class="card">
+          <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-rule">
+            <div>
+              <h2 class="font-display text-xl">Mark entry</h2>
+              <p id="mkMeta" class="text-xs text-ink-mute"></p>
+            </div>
+            <button id="mkSave"
+              class="bg-terra text-paper-card px-5 py-2 text-sm font-semibold hover:brightness-110 transition">
+              Save marks</button>
+          </div>
+          <div class="overflow-x-auto"><table class="data w-full text-sm">
+            <thead><tr class="border-b border-rule">
+              <th class="text-left px-5 py-3 w-16">Roll</th>
+              <th class="text-left px-5 py-3">Student</th>
+              <th class="text-left px-5 py-3 w-40">Marks</th>
+              <th class="text-left px-5 py-3 w-32">Grade</th>
+            </tr></thead><tbody id="mkBody"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- Results (student) -->
+      <section data-view="results" class="view" hidden>
+        <div class="card p-5 mb-5 flex flex-wrap gap-3 items-center">
+          <select id="resExam" class="bg-paper-card border border-rule px-3 py-2.5 text-sm min-w-[240px]"></select>
+          <button id="resLoad"
+            class="bg-ink text-paper-card px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+            View result</button>
+        </div>
+        <div id="resPanel"></div>
+      </section>
+
+      <!-- Fees -->
+      <section data-view="fees" class="view" hidden>
+        <div id="feeSummary" class="grid gap-4 sm:grid-cols-3 mb-6"></div>
+        <div id="feeAdmin" hidden class="card p-5 mb-5 flex flex-wrap gap-3 items-center">
+          <select id="invStatus" class="bg-paper-card border border-rule px-3 py-2.5 text-sm">
+            <option value="">All statuses</option>
+            <option>Unpaid</option><option>PartiallyPaid</option>
+            <option>Paid</option><option>Overdue</option><option>Cancelled</option>
+          </select>
+          <input id="invSearch" type="search" placeholder="Student or invoice no."
+                 class="bg-paper-card border border-rule px-3 py-2.5 text-sm flex-1 min-w-[200px]">
+          <button id="invLoad"
+            class="bg-ink text-paper-card px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+            Search</button>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="card overflow-hidden">
+            <h2 id="invHeading" class="font-display text-xl px-5 py-4 border-b border-rule">Invoices</h2>
+            <div class="overflow-x-auto"><table class="data w-full text-sm">
+              <thead><tr class="border-b border-rule">
+                <th class="text-left px-5 py-3">Invoice</th>
+                <th class="text-left px-5 py-3">Particulars</th>
+                <th class="text-right px-5 py-3">Balance</th>
+                <th class="text-left px-5 py-3">Status</th>
+                <th class="text-right px-5 py-3"></th>
+              </tr></thead><tbody id="invBody"></tbody>
+            </table></div>
+          </div>
+          <div class="card overflow-hidden">
+            <h2 class="font-display text-xl px-5 py-4 border-b border-rule">Payment history</h2>
+            <div class="overflow-x-auto"><table class="data w-full text-sm">
+              <thead><tr class="border-b border-rule">
+                <th class="text-left px-5 py-3">Receipt</th>
+                <th class="text-left px-5 py-3">Date</th>
+                <th class="text-left px-5 py-3">Method</th>
+                <th class="text-right px-5 py-3">Amount</th>
+              </tr></thead><tbody id="payBody"></tbody>
+            </table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notices -->
+      <section data-view="notices" class="view" hidden>
+        <div id="noticeAdminBar" hidden class="card p-5 mb-5 flex items-center justify-between gap-3">
+          <div>
+            <h2 class="font-display text-xl">Notice board</h2>
+            <p class="text-xs text-ink-mute">Bangla, English or both — type them however you like.</p>
+          </div>
+          <button id="noticeAdd"
+            class="bg-ink text-paper-card px-4 py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+            + New notice</button>
+        </div>
+        <div id="noticeList" class="grid gap-4 lg:grid-cols-2"></div>
+      </section>
+
+      <!-- Website content -->
+      <section data-view="website" class="view" hidden>
+        <div class="card p-5 mb-5">
+          <h2 class="font-display text-xl">Website content</h2>
+          <p class="text-xs text-ink-mute">
+            These blocks appear on the public homepage. Changes go live within a few minutes.
+          </p>
+        </div>
+        <div id="webList" class="grid gap-4 lg:grid-cols-2"></div>
+      </section>
+
+      <!-- Profile -->
+      <section data-view="profile" class="view" hidden>
+        <div class="grid gap-6 lg:grid-cols-3">
+          <div class="lg:col-span-2 card p-6">
+            <h2 class="font-display text-xl mb-4 pb-3 rule-double">My details</h2>
+            <dl id="profileBody" class="grid gap-x-8 gap-y-3 sm:grid-cols-2 text-sm"></dl>
+          </div>
+          <div class="card p-6">
+            <h2 class="font-display text-xl mb-4 pb-3 rule-double">Change password</h2>
+            <div id="pwNotice" hidden
+                 class="mb-4 px-4 py-3 text-sm bg-gold-light border-l-4 border-gold"></div>
+            <div id="pwLocked" hidden class="text-sm text-ink-soft leading-relaxed">
+              Your account cannot change its own password. Please ask the school office
+              if you need it reset.
+            </div>
+            <form id="pwForm" class="space-y-4" novalidate>
+              <input id="pwCurrent" type="password" placeholder="Current password"
+                     autocomplete="current-password"
+                     class="w-full bg-paper-card border border-rule px-3 py-2.5 text-sm">
+              <input id="pwNew" type="password" placeholder="New password"
+                     autocomplete="new-password"
+                     class="w-full bg-paper-card border border-rule px-3 py-2.5 text-sm">
+              <input id="pwConfirm" type="password" placeholder="Confirm new password"
+                     autocomplete="new-password"
+                     class="w-full bg-paper-card border border-rule px-3 py-2.5 text-sm">
+              <button type="submit"
+                class="w-full bg-ink text-paper-card py-2.5 text-sm font-semibold hover:bg-ink-soft transition">
+                Update password</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" hidden class="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-6">
+  <div id="modalScrim" class="absolute inset-0 bg-ink/60 backdrop-blur-sm"></div>
+  <div class="relative w-full sm:max-w-2xl max-h-[92vh] overflow-y-auto card rise">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-rule sticky top-0 bg-paper-card">
+      <h2 id="modalTitle" class="font-display text-2xl">Title</h2>
+      <button id="modalClose" aria-label="Close"
+              class="text-ink-mute hover:text-terra text-2xl leading-none">&times;</button>
+    </div>
+    <div id="modalBody" class="p-6"></div>
+  </div>
+</div>
+
+<div id="veil" hidden class="fixed inset-0 z-[80] bg-paper/70 backdrop-blur-[2px] flex items-center justify-center">
+  <div class="w-9 h-9 border-2 border-rule border-t-terra rounded-full spinner"></div>
+</div>
+
+<script src="erp.js"></script>
+</body>
+</html>
