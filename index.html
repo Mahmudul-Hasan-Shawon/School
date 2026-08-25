@@ -1,295 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adarsha High School</title>
-<meta name="description" content="A Bangladeshi secondary school serving Classes 1 to 10 in Gazipur.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adarsha High School</title>
+  <meta name="description" content="A Bangladeshi secondary school serving Classes 1 to 10 in Gazipur.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Tiro Bangla and Hind Siliguri render Bengali conjuncts correctly.
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Tiro Bangla and Hind Siliguri render Bengali conjuncts correctly.
      A default system font shows broken glyphs on many devices. -->
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        paper: { DEFAULT: '#F6F1E7', card: '#FFFDF8', deep: '#EDE5D6' },
-        ink:   { DEFAULT: '#14243D', soft: '#2E4160', mute: '#6B7A90' },
-        terra: { DEFAULT: '#B5462A', light: '#E8CFC5' },
-        moss:  { DEFAULT: '#17604A', light: '#CFE0D8' },
-        gold:  { DEFAULT: '#B0801F', light: '#F0E2BE' },
-        rule:  '#DCD3C2'
-      },
-      fontFamily: {
-        display: ['"Tiro Bangla"', 'Georgia', 'serif'],
-        sans:    ['"Hind Siliguri"', 'system-ui', 'sans-serif'],
-        mono:    ['"IBM Plex Mono"', 'monospace']
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: { DEFAULT: '#F6F1E7', card: '#FFFDF8', deep: '#EDE5D6' },
+            ink: { DEFAULT: '#14243D', soft: '#2E4160', mute: '#6B7A90' },
+            terra: { DEFAULT: '#B5462A', light: '#E8CFC5' },
+            moss: { DEFAULT: '#17604A', light: '#CFE0D8' },
+            gold: { DEFAULT: '#B0801F', light: '#F0E2BE' },
+            rule: '#DCD3C2'
+          },
+          fontFamily: {
+            display: ['"Tiro Bangla"', 'Georgia', 'serif'],
+            sans: ['"Hind Siliguri"', 'system-ui', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace']
+          }
+        }
       }
     }
-  }
-}
-</script>
+  </script>
 
-<style>
-  body {
-    background-color: #F6F1E7;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-  }
-  .card { background:#FFFDF8; border:1px solid #DCD3C2;
-          box-shadow:0 1px 0 #EDE5D6, 0 10px 30px -22px rgba(20,36,61,.5); }
-  .rule-double { border-bottom:3px double #DCD3C2; }
+  <style>
+    body {
+      background-color: #F6F1E7;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
 
-  @keyframes riseIn { from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
-  .rise { animation: riseIn .6s cubic-bezier(.2,.7,.3,1) both; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { animation: spin .7s linear infinite; }
+    .card {
+      background: #FFFDF8;
+      border: 1px solid #DCD3C2;
+      box-shadow: 0 1px 0 #EDE5D6, 0 10px 30px -22px rgba(20, 36, 61, .5);
+    }
 
-  /* Hero engraving: concentric rings behind the crest */
-  .rings { background-image:
-      radial-gradient(circle, transparent 0 78px, rgba(181,70,42,.16) 78px 79px, transparent 79px),
-      radial-gradient(circle, transparent 0 108px, rgba(181,70,42,.11) 108px 109px, transparent 109px),
-      radial-gradient(circle, transparent 0 142px, rgba(181,70,42,.07) 142px 143px, transparent 143px); }
+    .rule-double {
+      border-bottom: 3px double #DCD3C2;
+    }
 
-  .nav-link { position:relative; }
-  .nav-link::after { content:''; position:absolute; left:0; right:100%; bottom:-3px; height:1.5px;
-                     background:#B5462A; transition:right .25s ease; }
-  .nav-link:hover::after { right:0; }
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
 
-  .notice-item { border-left:3px solid #DCD3C2; transition:border-color .2s, background .2s; }
-  .notice-item:hover { border-left-color:#B5462A; background:rgba(237,229,214,.4); }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
 
-  .marquee-track { animation: slide 38s linear infinite; }
-  @keyframes slide { from{transform:translateX(0);} to{transform:translateX(-50%);} }
-  .marquee:hover .marquee-track { animation-play-state: paused; }
+    .rise {
+      animation: riseIn .6s cubic-bezier(.2, .7, .3, 1) both;
+    }
 
-  [hidden] { display:none !important; }
-  html { scroll-behavior:smooth; }
-</style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner {
+      animation: spin .7s linear infinite;
+    }
+
+    /* Hero engraving: concentric rings behind the crest */
+    .rings {
+      background-image:
+        radial-gradient(circle, transparent 0 78px, rgba(181, 70, 42, .16) 78px 79px, transparent 79px),
+        radial-gradient(circle, transparent 0 108px, rgba(181, 70, 42, .11) 108px 109px, transparent 109px),
+        radial-gradient(circle, transparent 0 142px, rgba(181, 70, 42, .07) 142px 143px, transparent 143px);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -3px;
+      height: 1.5px;
+      background: #B5462A;
+      transition: right .25s ease;
+    }
+
+    .nav-link:hover::after {
+      right: 0;
+    }
+
+    .notice-item {
+      border-left: 3px solid #DCD3C2;
+      transition: border-color .2s, background .2s;
+    }
+
+    .notice-item:hover {
+      border-left-color: #B5462A;
+      background: rgba(237, 229, 214, .4);
+    }
+
+    .marquee-track {
+      animation: slide 38s linear infinite;
+    }
+
+    @keyframes slide {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 
 <body class="font-sans text-ink antialiased">
 
-<!-- ═══════════════════════════════════════════════ TOP BAR ═════════════ -->
-<div class="bg-ink text-paper-card/70 text-xs">
-  <div class="max-w-6xl mx-auto px-5 h-9 flex items-center justify-between gap-4">
-    <span class="font-mono tracking-wider" id="topEiin">EIIN —</span>
-    <div class="flex items-center gap-5">
-      <a id="topPhone" href="#" class="hover:text-terra transition hidden sm:inline"></a>
-      <a id="topEmail" href="#" class="hover:text-terra transition hidden md:inline"></a>
+  <!-- ═══════════════════════════════════════════════ TOP BAR ═════════════ -->
+  <div class="bg-ink text-paper-card/70 text-xs">
+    <div class="max-w-6xl mx-auto px-5 h-9 flex items-center justify-between gap-4">
+      <span class="font-mono tracking-wider" id="topEiin">EIIN —</span>
+      <div class="flex items-center gap-5">
+        <a id="topPhone" href="#" class="hover:text-terra transition hidden sm:inline"></a>
+        <a id="topEmail" href="#" class="hover:text-terra transition hidden md:inline"></a>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════ NAV ═════════════════ -->
-<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-rule">
-  <nav class="max-w-6xl mx-auto px-5 h-[72px] flex items-center justify-between gap-6">
-    <a href="#top" class="flex items-center gap-3 min-w-0">
-      <span class="w-10 h-10 border-2 border-terra flex items-center justify-center
+  <!-- ═══════════════════════════════════════════════ NAV ═════════════════ -->
+  <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-rule">
+    <nav class="max-w-6xl mx-auto px-5 h-[72px] flex items-center justify-between gap-6">
+      <a href="#top" class="flex items-center gap-3 min-w-0">
+        <span class="w-10 h-10 border-2 border-terra flex items-center justify-center
                    font-display text-terra text-xl shrink-0">ব</span>
-      <span class="min-w-0">
-        <span id="navNameBn" class="block font-display text-base leading-tight truncate">বিদ্যালয়</span>
-        <span id="navNameEn" class="block font-mono text-[10px] tracking-[.14em] uppercase text-ink-mute truncate">School</span>
-      </span>
-    </a>
+        <span class="min-w-0">
+          <span id="navNameBn" class="block font-display text-base leading-tight truncate">বিদ্যালয়</span>
+          <span id="navNameEn"
+            class="block font-mono text-[10px] tracking-[.14em] uppercase text-ink-mute truncate">School</span>
+        </span>
+      </a>
 
-    <div class="hidden lg:flex items-center gap-7 text-sm">
-      <a href="#about" class="nav-link hover:text-terra transition">About</a>
-      <a href="#academics" class="nav-link hover:text-terra transition">Academics</a>
-      <a href="#notices" class="nav-link hover:text-terra transition">Notices</a>
-      <a href="#staff" class="nav-link hover:text-terra transition">Teachers</a>
-      <a href="#contact" class="nav-link hover:text-terra transition">Contact</a>
-    </div>
+      <div class="hidden lg:flex items-center gap-7 text-sm">
+        <a href="#about" class="nav-link hover:text-terra transition">About</a>
+        <a href="#academics" class="nav-link hover:text-terra transition">Academics</a>
+        <a href="#notices" class="nav-link hover:text-terra transition">Notices</a>
+        <a href="#staff" class="nav-link hover:text-terra transition">Teachers</a>
+        <a href="#contact" class="nav-link hover:text-terra transition">Contact</a>
+      </div>
 
-    <div class="flex items-center gap-3">
-      <!-- The ERP button: the whole point of the nav bar -->
-      <a href="erp.html"
-         class="group inline-flex items-center gap-2 bg-terra text-paper-card px-5 py-2.5 text-sm
+      <div class="flex items-center gap-3">
+        <!-- The ERP button: the whole point of the nav bar -->
+        <a href="erp.html" class="group inline-flex items-center gap-2 bg-terra text-paper-card px-5 py-2.5 text-sm
                 font-semibold hover:bg-ink transition shadow-sm">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
-        ERP Login
-      </a>
-      <button id="menuBtn" class="lg:hidden p-2 -mr-2" aria-label="Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
-          <path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-    </div>
-  </nav>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
+          </svg>
+          ERP Login
+        </a>
+        <button id="menuBtn" class="lg:hidden p-2 -mr-2" aria-label="Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
+            <path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </button>
+      </div>
+    </nav>
 
-  <div id="mobileMenu" hidden class="lg:hidden border-t border-rule bg-paper-card">
-    <div class="max-w-6xl mx-auto px-5 py-3 grid gap-1 text-sm">
-      <a href="#about" class="mob py-2.5 border-b border-rule/60">About</a>
-      <a href="#academics" class="mob py-2.5 border-b border-rule/60">Academics</a>
-      <a href="#notices" class="mob py-2.5 border-b border-rule/60">Notices</a>
-      <a href="#staff" class="mob py-2.5 border-b border-rule/60">Teachers</a>
-      <a href="#contact" class="mob py-2.5">Contact</a>
+    <div id="mobileMenu" hidden class="lg:hidden border-t border-rule bg-paper-card">
+      <div class="max-w-6xl mx-auto px-5 py-3 grid gap-1 text-sm">
+        <a href="#about" class="mob py-2.5 border-b border-rule/60">About</a>
+        <a href="#academics" class="mob py-2.5 border-b border-rule/60">Academics</a>
+        <a href="#notices" class="mob py-2.5 border-b border-rule/60">Notices</a>
+        <a href="#staff" class="mob py-2.5 border-b border-rule/60">Teachers</a>
+        <a href="#contact" class="mob py-2.5">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ NOTICE TICKER ═══════ -->
+  <div id="ticker" hidden class="bg-ink text-paper-card overflow-hidden marquee">
+    <div class="max-w-6xl mx-auto px-5 h-11 flex items-center gap-4">
+      <span class="font-mono text-[10px] tracking-[.18em] uppercase text-terra shrink-0">নোটিশ</span>
+      <div class="flex-1 overflow-hidden">
+        <div id="tickerTrack" class="marquee-track flex gap-12 whitespace-nowrap text-sm"></div>
+      </div>
     </div>
   </div>
-</header>
 
-<!-- ═══════════════════════════════════════════════ NOTICE TICKER ═══════ -->
-<div id="ticker" hidden class="bg-ink text-paper-card overflow-hidden marquee">
-  <div class="max-w-6xl mx-auto px-5 h-11 flex items-center gap-4">
-    <span class="font-mono text-[10px] tracking-[.18em] uppercase text-terra shrink-0">নোটিশ</span>
-    <div class="flex-1 overflow-hidden">
-      <div id="tickerTrack" class="marquee-track flex gap-12 whitespace-nowrap text-sm"></div>
-    </div>
-  </div>
-</div>
+  <main id="top">
 
-<main id="top">
+    <!-- ═══════════════════════════════════════════════ HERO ════════════════ -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 rings opacity-70"
+        style="background-position:center 40%; background-repeat:no-repeat;"></div>
 
-<!-- ═══════════════════════════════════════════════ HERO ════════════════ -->
-<section class="relative overflow-hidden">
-  <div class="absolute inset-0 rings opacity-70"
-       style="background-position:center 40%; background-repeat:no-repeat;"></div>
-
-  <div class="relative max-w-6xl mx-auto px-5 py-16 lg:py-24 grid lg:grid-cols-12 gap-10 items-center">
-    <div class="lg:col-span-7 rise">
-      <p id="heroAdmission" hidden
-         class="inline-flex items-center gap-2 bg-moss-light text-moss px-3 py-1.5 mb-6
+      <div class="relative max-w-6xl mx-auto px-5 py-16 lg:py-24 grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-7 rise">
+          <p id="heroAdmission" hidden class="inline-flex items-center gap-2 bg-moss-light text-moss px-3 py-1.5 mb-6
                 font-mono text-[10px] tracking-[.16em] uppercase">
-        <span class="w-1.5 h-1.5 rounded-full bg-moss"></span> ভর্তি চলছে · Admission open
-      </p>
+            <span class="w-1.5 h-1.5 rounded-full bg-moss"></span> ভর্তি চলছে · Admission open
+          </p>
 
-      <h1 id="heroTitle" class="font-display text-5xl lg:text-7xl leading-[1.05] mb-5">
-        আদর্শ উচ্চ বিদ্যালয়
-      </h1>
-      <p id="heroBody" class="text-lg text-ink-soft leading-relaxed max-w-xl mb-4"></p>
-      <p id="heroMotto" class="font-display italic text-xl text-terra mb-8"></p>
+          <h1 id="heroTitle" class="font-display text-5xl lg:text-7xl leading-[1.05] mb-5">
+            উদয়ন মডেল স্কুল
+          </h1>
+          <p id="heroBody" class="text-lg text-ink-soft leading-relaxed max-w-xl mb-4"></p>
+          <p id="heroMotto" class="font-display italic text-xl text-terra mb-8"></p>
 
-      <div class="flex flex-wrap gap-3">
-        <a href="erp.html"
-           class="bg-ink text-paper-card px-7 py-3.5 text-sm font-semibold hover:bg-ink-soft transition">
-          Enter the ERP portal
-        </a>
-        <a href="#notices"
-           class="border border-ink px-7 py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition">
-          Read notices
-        </a>
+          <div class="flex flex-wrap gap-3">
+            <a href="erp.html"
+              class="bg-ink text-paper-card px-7 py-3.5 text-sm font-semibold hover:bg-ink-soft transition">
+              Enter the ERP portal
+            </a>
+            <a href="#notices"
+              class="border border-ink px-7 py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition">
+              Read notices
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 rise" style="animation-delay:.1s">
+          <div class="card p-8">
+            <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-5">At a glance</p>
+            <dl id="statGrid" class="grid grid-cols-2 gap-6"></dl>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="lg:col-span-5 rise" style="animation-delay:.1s">
-      <div class="card p-8">
-        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-5">At a glance</p>
-        <dl id="statGrid" class="grid grid-cols-2 gap-6"></dl>
+    <!-- ═══════════════════════════════════════════════ ABOUT ═══════════════ -->
+    <section id="about" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+      <div class="grid lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-7">
+          <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">01 — About</p>
+          <h2 id="aboutTitle" class="font-display text-4xl mb-5 pb-4 rule-double">আমাদের সম্পর্কে</h2>
+          <p id="aboutBody" class="text-ink-soft leading-relaxed text-[17px]"></p>
+        </div>
+
+        <aside class="lg:col-span-5">
+          <div class="card p-7 h-full flex flex-col">
+            <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-4">
+              Head teacher's message
+            </p>
+            <p id="headMessage" class="font-display text-[17px] leading-relaxed text-ink-soft flex-1"></p>
+            <p id="headName" class="mt-6 pt-4 border-t border-rule font-semibold text-sm"></p>
+          </div>
+        </aside>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ═══════════════════════════════════════════════ ABOUT ═══════════════ -->
-<section id="about" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
-  <div class="grid lg:grid-cols-12 gap-10">
-    <div class="lg:col-span-7">
-      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">01 — About</p>
-      <h2 id="aboutTitle" class="font-display text-4xl mb-5 pb-4 rule-double">আমাদের সম্পর্কে</h2>
-      <p id="aboutBody" class="text-ink-soft leading-relaxed text-[17px]"></p>
-    </div>
-
-    <aside class="lg:col-span-5">
-      <div class="card p-7 h-full flex flex-col">
-        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-4">
-          Head teacher's message
-        </p>
-        <p id="headMessage" class="font-display text-[17px] leading-relaxed text-ink-soft flex-1"></p>
-        <p id="headName" class="mt-6 pt-4 border-t border-rule font-semibold text-sm"></p>
+    <!-- ═══════════════════════════════════════════════ ACADEMICS ═══════════ -->
+    <section id="academics" class="bg-ink text-paper-card py-16 lg:py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">02 — Academics</p>
+        <h2 class="font-display text-4xl mb-12">What we offer</h2>
+        <div id="featureGrid" class="grid md:grid-cols-3 gap-px bg-paper-card/15"></div>
       </div>
-    </aside>
-  </div>
-</section>
+    </section>
 
-<!-- ═══════════════════════════════════════════════ ACADEMICS ═══════════ -->
-<section id="academics" class="bg-ink text-paper-card py-16 lg:py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">02 — Academics</p>
-    <h2 class="font-display text-4xl mb-12">What we offer</h2>
-    <div id="featureGrid" class="grid md:grid-cols-3 gap-px bg-paper-card/15"></div>
-  </div>
-</section>
+    <!-- ═══════════════════════════════════════════════ FACILITIES ══════════ -->
+    <section class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">03 — Facilities</p>
+      <h2 class="font-display text-4xl mb-10">সুযোগ-সুবিধা</h2>
+      <div id="facilityGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
 
-<!-- ═══════════════════════════════════════════════ FACILITIES ══════════ -->
-<section class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
-  <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">03 — Facilities</p>
-  <h2 class="font-display text-4xl mb-10">সুযোগ-সুবিধা</h2>
-  <div id="facilityGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-</section>
-
-<!-- ═══════════════════════════════════════════════ NOTICES ═════════════ -->
-<section id="notices" class="bg-paper-deep py-16 lg:py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
-      <div>
-        <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">04 — Notices</p>
-        <h2 class="font-display text-4xl">নোটিশ বোর্ড</h2>
+    <!-- ═══════════════════════════════════════════════ NOTICES ═════════════ -->
+    <section id="notices" class="bg-paper-deep py-16 lg:py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">04 — Notices</p>
+            <h2 class="font-display text-4xl">নোটিশ বোর্ড</h2>
+          </div>
+          <p class="text-sm text-ink-mute max-w-sm">
+            Notices are written in Bangla, English, or both. Students and teachers see
+            additional notices after signing in.
+          </p>
+        </div>
+        <div id="noticeList" class="grid lg:grid-cols-2 gap-5"></div>
       </div>
-      <p class="text-sm text-ink-mute max-w-sm">
-        Notices are written in Bangla, English, or both. Students and teachers see
-        additional notices after signing in.
-      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════ STAFF ═══════════════ -->
+    <section id="staff" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">05 — Teachers</p>
+      <h2 class="font-display text-4xl mb-10">আমাদের শিক্ষকমণ্ডলী</h2>
+      <div id="staffGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════ CONTACT ═════════════ -->
+    <section id="contact" class="bg-ink text-paper-card py-16 lg:py-20">
+      <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
+        <div>
+          <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">06 — Contact</p>
+          <h2 class="font-display text-4xl mb-8">যোগাযোগ</h2>
+          <dl id="contactList" class="space-y-5 text-[15px]"></dl>
+        </div>
+        <div class="card p-8 text-ink">
+          <h3 class="font-display text-2xl mb-3">Already a student or teacher?</h3>
+          <p class="text-sm text-ink-soft leading-relaxed mb-6">
+            Sign in to the ERP portal to view results, report cards, fees and notices.
+            Admins, teachers and students each have their own sign-in.
+          </p>
+          <a href="erp.html"
+            class="block text-center bg-terra text-paper-card py-3.5 text-sm font-semibold hover:bg-ink transition">
+            Go to the ERP portal
+          </a>
+          <p class="mt-4 text-xs text-ink-mute text-center">
+            Forgotten your password? Contact the school office.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-ink border-t border-paper-card/10 text-paper-card/50 py-8">
+    <div class="max-w-6xl mx-auto px-5 flex flex-wrap items-center justify-between gap-4 text-xs">
+      <p id="footName">© Adarsha High School</p>
+      <p class="font-mono tracking-wider">Powered by Google Sheets + Apps Script</p>
     </div>
-    <div id="noticeList" class="grid lg:grid-cols-2 gap-5"></div>
+  </footer>
+
+  <!-- Loading veil -->
+  <div id="veil" class="fixed inset-0 z-50 bg-paper flex items-center justify-center">
+    <div class="w-9 h-9 border-2 border-rule border-t-terra rounded-full spinner"></div>
   </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════ STAFF ═══════════════ -->
-<section id="staff" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
-  <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">05 — Teachers</p>
-  <h2 class="font-display text-4xl mb-10">আমাদের শিক্ষকমণ্ডলী</h2>
-  <div id="staffGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
-</section>
-
-<!-- ═══════════════════════════════════════════════ CONTACT ═════════════ -->
-<section id="contact" class="bg-ink text-paper-card py-16 lg:py-20">
-  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
-    <div>
-      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">06 — Contact</p>
-      <h2 class="font-display text-4xl mb-8">যোগাযোগ</h2>
-      <dl id="contactList" class="space-y-5 text-[15px]"></dl>
-    </div>
-    <div class="card p-8 text-ink">
-      <h3 class="font-display text-2xl mb-3">Already a student or teacher?</h3>
-      <p class="text-sm text-ink-soft leading-relaxed mb-6">
-        Sign in to the ERP portal to view results, report cards, fees and notices.
-        Admins, teachers and students each have their own sign-in.
-      </p>
-      <a href="erp.html"
-         class="block text-center bg-terra text-paper-card py-3.5 text-sm font-semibold hover:bg-ink transition">
-        Go to the ERP portal
-      </a>
-      <p class="mt-4 text-xs text-ink-mute text-center">
-        Forgotten your password? Contact the school office.
-      </p>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer class="bg-ink border-t border-paper-card/10 text-paper-card/50 py-8">
-  <div class="max-w-6xl mx-auto px-5 flex flex-wrap items-center justify-between gap-4 text-xs">
-    <p id="footName">© Adarsha High School</p>
-    <p class="font-mono tracking-wider">Powered by Google Sheets + Apps Script</p>
-  </div>
-</footer>
-
-<!-- Loading veil -->
-<div id="veil" class="fixed inset-0 z-50 bg-paper flex items-center justify-center">
-  <div class="w-9 h-9 border-2 border-rule border-t-terra rounded-full spinner"></div>
-</div>
-
-<!-- Error banner, shown only if the API cannot be reached -->
-<div id="errBanner" hidden
-     class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 card px-5 py-4 text-sm max-w-md
+  <!-- Error banner, shown only if the API cannot be reached -->
+  <div id="errBanner" hidden class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 card px-5 py-4 text-sm max-w-md
             border-l-4 border-terra"></div>
 
-<script src="site.js"></script>
+  <script src="site.js"></script>
 </body>
+
 </html>
