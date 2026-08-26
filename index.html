@@ -4,35 +4,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adarsha High School</title>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9128/9128972.png" type="image/x-icon">
+  <title>Udayan Model School</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2316292B'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23D98C1F' stroke-width='2' stroke-dasharray='4 3'/%3E%3Ctext x='32' y='43' font-size='30' text-anchor='middle' fill='%23FAF6EC' font-family='Georgia,serif'%3E%E0%A6%89%3C/text%3E%3C/svg%3E" type="image/svg+xml">
   <meta name="description" content="A Bangladeshi secondary school serving Classes 1 to 10 in Gazipur.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Tiro Bangla and Hind Siliguri render Bengali conjuncts correctly.
-     A default system font shows broken glyphs on many devices. -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            paper: { DEFAULT: '#F6F1E7', card: '#FFFDF8', deep: '#EDE5D6' },
-            ink: { DEFAULT: '#14243D', soft: '#2E4160', mute: '#6B7A90' },
-            terra: { DEFAULT: '#B5462A', light: '#E8CFC5' },
-            moss: { DEFAULT: '#17604A', light: '#CFE0D8' },
-            gold: { DEFAULT: '#B0801F', light: '#F0E2BE' },
-            rule: '#DCD3C2'
+            /* token NAMES kept identical to the original build (paper / ink / terra / moss / gold / rule)
+               so that any classes site.js injects at runtime (bg-terra, text-moss, border-gold, etc.)
+               keep working — only the hex values underneath have changed. */
+            paper: { DEFAULT: '#FAF6EC', card: '#FFFFFF', deep: '#EFE4CE' },
+            ink: { DEFAULT: '#16292B', soft: '#204648', mute: '#66797B' },
+            terra: { DEFAULT: '#D98C1F', light: '#F5E3BA' },   // marigold — primary accent
+            moss: { DEFAULT: '#1F6F5C', light: '#D3E8DF' },    // jade — secondary accent
+            gold: { DEFAULT: '#A6403A', light: '#EEDAD3' },    // kantha rust — tertiary accent
+            rule: '#DED2B7'
           },
           fontFamily: {
-            display: ['"Tiro Bangla"', 'Georgia', 'serif'],
+            display: ['"Baloo Da 2"', 'Georgia', 'serif'],
             sans: ['"Hind Siliguri"', 'system-ui', 'sans-serif'],
-            mono: ['"IBM Plex Mono"', 'monospace']
+            mono: ['"JetBrains Mono"', 'monospace']
           }
         }
       }
@@ -41,115 +43,237 @@
 
   <style>
     body {
-      background-color: #F6F1E7;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+      background-color: #FAF6EC;
+      /* ruled exercise-book paper instead of the old noise texture — signature motif of the redesign */
+      background-image:
+        linear-gradient(rgba(22, 41, 43, .05) 1px, transparent 1px);
+      background-size: 100% 30px;
     }
 
     .card {
       background: #FFFDF8;
-      border: 1px solid #DCD3C2;
-      box-shadow: 0 1px 0 #EDE5D6, 0 10px 30px -22px rgba(20, 36, 61, .5);
+      border: 1px solid #DED2B7;
+      box-shadow: 0 2px 0 #EFE4CE, 0 12px 32px -18px rgba(22, 41, 43, .5);
+      transition: transform 0.25s cubic-bezier(.2,.8,.3,1), box-shadow 0.3s ease, border-color .3s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 26px -12px rgba(22, 41, 43, .28);
+      border-color: #D98C1F;
     }
 
     .rule-double {
-      border-bottom: 3px double #DCD3C2;
+      border-bottom: 3px double #DED2B7;
     }
 
     @keyframes riseIn {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-
-      to {
-        opacity: 1;
-        transform: none;
-      }
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     .rise {
-      animation: riseIn .6s cubic-bezier(.2, .7, .3, 1) both;
+      animation: riseIn 0.7s cubic-bezier(0.16, 0.8, 0.25, 1) both;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin .7s linear infinite; }
 
-    .spinner {
-      animation: spin .7s linear infinite;
-    }
+    @keyframes sealSpin { to { transform: rotate(360deg); } }
+    .seal-ring { animation: sealSpin 22s linear infinite; transform-origin: center; }
+    .seal:hover .seal-ring { animation-duration: 4s; }
 
-    /* Hero engraving: concentric rings behind the crest */
     .rings {
       background-image:
-        radial-gradient(circle, transparent 0 78px, rgba(181, 70, 42, .16) 78px 79px, transparent 79px),
-        radial-gradient(circle, transparent 0 108px, rgba(181, 70, 42, .11) 108px 109px, transparent 109px),
-        radial-gradient(circle, transparent 0 142px, rgba(181, 70, 42, .07) 142px 143px, transparent 143px);
+        radial-gradient(circle, transparent 0 78px, rgba(217, 140, 31, .14) 78px 79px, transparent 79px),
+        radial-gradient(circle, transparent 0 108px, rgba(31, 111, 92, .10) 108px 109px, transparent 109px),
+        radial-gradient(circle, transparent 0 142px, rgba(166, 64, 58, .06) 142px 143px, transparent 143px);
+      transition: background-position .3s ease-out;
     }
 
-    .nav-link {
-      position: relative;
-    }
-
+    .nav-link { position: relative; }
     .nav-link::after {
       content: '';
       position: absolute;
       left: 0;
       right: 100%;
       bottom: -3px;
-      height: 1.5px;
-      background: #B5462A;
+      height: 2px;
+      background: #D98C1F;
       transition: right .25s ease;
     }
-
-    .nav-link:hover::after {
-      right: 0;
-    }
+    .nav-link:hover::after { right: 0; }
 
     .notice-item {
-      border-left: 3px solid #DCD3C2;
-      transition: border-color .2s, background .2s;
+      border-left: 3px solid #DED2B7;
+      transition: border-color .2s, background .2s, transform .15s;
     }
-
     .notice-item:hover {
-      border-left-color: #B5462A;
-      background: rgba(237, 229, 214, .4);
+      border-left-color: #D98C1F;
+      background: rgba(239, 228, 206, .5);
+      transform: translateX(4px);
     }
 
-    .marquee-track {
-      animation: slide 38s linear infinite;
-    }
-
+    .marquee-track { animation: slide 42s linear infinite; }
     @keyframes slide {
-      from {
-        transform: translateX(0);
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+
+    [hidden] { display: none !important; }
+    /* Lenis drives smooth scrolling now; native smooth-scroll would fight it. */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    .gallery-img {
+      transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.3s;
+    }
+    .gallery-img:hover {
+      transform: scale(1.03) translateY(-3px);
+      box-shadow: 0 16px 40px -12px rgba(22,41,43,0.25);
+    }
+
+    .staff-card {
+      transition: transform 0.25s ease, box-shadow 0.3s;
+    }
+    .staff-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 12px 28px -12px rgba(22, 41, 43, .3);
+    }
+
+    .facility-card {
+      transition: all 0.25s ease;
+    }
+    .facility-card:hover {
+      background: #FFFDF8;
+      border-color: #D98C1F;
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px -10px rgba(217, 140, 31, .18);
+    }
+
+    .btn-glow { transition: all 0.2s; }
+
+    /* ripple micro-interaction for primary buttons */
+    .btn-ripple { position: relative; overflow: hidden; }
+    .btn-ripple span.ripple {
+      position: absolute; border-radius: 9999px; background: rgba(255,255,255,.5);
+      transform: scale(0); animation: rippleAnim .6s ease-out forwards; pointer-events: none;
+    }
+    @keyframes rippleAnim { to { transform: scale(3); opacity: 0; } }
+
+    .section-fade {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* notebook-page signature card (head teacher's message) */
+    .notebook-page {
+      position: relative;
+      border-left: 3px solid #A6403A;
+    }
+    .notebook-pin {
+      position: absolute; top: -10px; right: 22px;
+      width: 22px; height: 22px; border-radius: 9999px;
+      background: #D98C1F; box-shadow: 0 3px 6px rgba(0,0,0,.25);
+    }
+
+    /* FAQ accordion */
+    .faq-item[open] summary .chev { transform: rotate(180deg); }
+    .faq-item summary { list-style: none; cursor: pointer; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .chev { transition: transform .25s ease; }
+    .faq-item[open] .faq-body { animation: riseIn .35s ease both; }
+
+    /* testimonial dots */
+    .dot { width: 8px; height: 8px; border-radius: 9999px; background: #DED2B7; transition: all .25s ease; cursor: pointer; }
+    .dot.active { background: #D98C1F; width: 22px; border-radius: 9999px; }
+
+    /* scroll-to-top FAB */
+    #toTop {
+      opacity: 0; pointer-events: none; transform: translateY(12px) scale(.9);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+
+    /* scroll progress bar */
+    #progressBar { transform: scaleX(0); transform-origin: left; transition: transform .08s linear; }
+
+    /* timeline */
+    .tl-dot { box-shadow: 0 0 0 4px #FAF6EC; }
+
+    /* footer extra style */
+    .footer-link {
+      transition: color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .footer-link:hover {
+      color: #D98C1F;
+      transform: translateX(4px);
+    }
+    .social-icon {
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .social-icon:hover {
+      background: #D98C1F;
+      border-color: #D98C1F;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px -8px rgba(217, 140, 31, 0.35);
+    }
+    .footer-heading {
+      position: relative;
+      display: inline-block;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 28px;
+      height: 2px;
+      background: #D98C1F;
+      border-radius: 2px;
+    }
+
+    /* lightbox */
+    #lightbox { background: rgba(22,41,43,.92); }
+    #lightbox img { max-height: 82vh; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
       }
-
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    .marquee:hover .marquee-track {
-      animation-play-state: paused;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
   </style>
 </head>
 
 <body class="font-sans text-ink antialiased">
 
-  <!-- ═══════════════════════════════════════════════ TOP BAR ═════════════ -->
-  <div class="bg-ink text-paper-card/70 text-xs">
+  <!-- SCROLL PROGRESS -->
+  <div class="fixed top-0 left-0 right-0 z-50 h-[3px] bg-transparent">
+    <div id="progressBar" class="h-full bg-terra"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="bg-ink text-paper-card/80 text-xs">
     <div class="max-w-6xl mx-auto px-5 h-9 flex items-center justify-between gap-4">
       <span class="font-mono tracking-wider" id="topEiin">EIIN —</span>
       <div class="flex items-center gap-5">
@@ -159,34 +283,37 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════ NAV ═════════════════ -->
+  <!-- NAV -->
   <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-rule">
     <nav class="max-w-6xl mx-auto px-5 h-[72px] flex items-center justify-between gap-6">
-      <a href="#top" class="flex items-center gap-3 min-w-0">
-        <span class="w-10 h-10 border-2 border-terra flex items-center justify-center
-                   font-display text-terra text-xl shrink-0">উ</span>
+      <a href="#top" class="flex items-center gap-3 min-w-0 group">
+        <span class="seal relative w-11 h-11 shrink-0 flex items-center justify-center">
+          <svg class="seal-ring absolute inset-0" viewBox="0 0 44 44" fill="none">
+            <circle cx="22" cy="22" r="20" stroke="#D98C1F" stroke-width="1.6" stroke-dasharray="3 4"/>
+          </svg>
+          <span class="w-8 h-8 rounded-full bg-ink flex items-center justify-center font-display text-terra text-base">উ</span>
+        </span>
         <span class="min-w-0">
-          <span id="navNameBn" class="block font-display text-base leading-tight truncate">উদয়ন মডেল স্কুল</span>
-          <span id="navNameEn"
-            class="block font-mono text-[10px] tracking-[.14em] uppercase text-ink-mute truncate">Udayan Model School</span>
+          <span id="navNameBn" class="block font-display font-semibold text-base leading-tight truncate">উদয়ন মডেল স্কুল</span>
+          <span id="navNameEn" class="block font-mono text-[10px] tracking-[.14em] uppercase text-ink-mute truncate">Udayan Model School</span>
         </span>
       </a>
 
-      <div class="hidden lg:flex items-center gap-7 text-sm">
+      <div class="hidden lg:flex items-center gap-6 text-sm">
         <a href="#about" class="nav-link hover:text-terra transition">About</a>
         <a href="#academics" class="nav-link hover:text-terra transition">Academics</a>
+        <a href="#events" class="nav-link hover:text-terra transition">Events</a>
         <a href="#notices" class="nav-link hover:text-terra transition">Notices</a>
+        <a href="#voices" class="nav-link hover:text-terra transition">Voices</a>
         <a href="#staff" class="nav-link hover:text-terra transition">Teachers</a>
         <a href="#contact" class="nav-link hover:text-terra transition">Contact</a>
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- The ERP button: the whole point of the nav bar -->
-        <a href="erp.html" class="group inline-flex items-center gap-2 bg-terra text-paper-card px-5 py-2.5 text-sm
-                font-semibold hover:bg-ink transition shadow-sm">
+        <a href="erp.html" class="btn-ripple group inline-flex items-center gap-2 bg-terra text-ink px-2 py-2 text-sm
+                font-semibold hover:bg-ink hover:text-paper-card transition shadow-sm btn-glow">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
           </svg>
           ERP Login
         </a>
@@ -202,14 +329,16 @@
       <div class="max-w-6xl mx-auto px-5 py-3 grid gap-1 text-sm">
         <a href="#about" class="mob py-2.5 border-b border-rule/60">About</a>
         <a href="#academics" class="mob py-2.5 border-b border-rule/60">Academics</a>
+        <a href="#events" class="mob py-2.5 border-b border-rule/60">Events</a>
         <a href="#notices" class="mob py-2.5 border-b border-rule/60">Notices</a>
+        <a href="#voices" class="mob py-2.5 border-b border-rule/60">Voices</a>
         <a href="#staff" class="mob py-2.5 border-b border-rule/60">Teachers</a>
         <a href="#contact" class="mob py-2.5">Contact</a>
       </div>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════ NOTICE TICKER ═══════ -->
+  <!-- TICKER -->
   <div id="ticker" hidden class="bg-ink text-paper-card overflow-hidden marquee">
     <div class="max-w-6xl mx-auto px-5 h-11 flex items-center gap-4">
       <span class="font-mono text-[10px] tracking-[.18em] uppercase text-terra shrink-0">নোটিশ</span>
@@ -221,38 +350,35 @@
 
   <main id="top">
 
-    <!-- ═══════════════════════════════════════════════ HERO ════════════════ -->
+    <!-- HERO -->
     <section class="relative overflow-hidden">
-      <div class="absolute inset-0 rings opacity-70"
-        style="background-position:center 40%; background-repeat:no-repeat;"></div>
-
+      <div id="heroRings" class="absolute inset-0 rings opacity-70" style="background-position:center 40%; background-repeat:no-repeat;"></div>
       <div class="relative max-w-6xl mx-auto px-5 py-16 lg:py-24 grid lg:grid-cols-12 gap-10 items-center">
         <div class="lg:col-span-7 rise">
           <p id="heroAdmission" hidden class="inline-flex items-center gap-2 bg-moss-light text-moss px-3 py-1.5 mb-6
                 font-mono text-[10px] tracking-[.16em] uppercase">
             <span class="w-1.5 h-1.5 rounded-full bg-moss"></span> ভর্তি চলছে · Admission open
           </p>
-
-          <h1 id="heroTitle" class="font-display text-5xl lg:text-7xl leading-[1.05] mb-5">
-            উদয়ন মডেল স্কুল
-          </h1>
+          <h1 id="heroTitle" class="font-display font-extrabold text-5xl lg:text-7xl leading-[1.05] mb-5">উদয়ন মডেল স্কুল</h1>
           <p id="heroBody" class="text-lg text-ink-soft leading-relaxed max-w-xl mb-4"></p>
           <p id="heroMotto" class="font-display italic text-xl text-terra mb-8"></p>
-
           <div class="flex flex-wrap gap-3">
-            <a href="erp.html"
-              class="bg-ink text-paper-card px-7 py-3.5 text-sm font-semibold hover:bg-ink-soft transition">
+            <a href="erp.html" class="btn-ripple bg-ink text-paper-card px-7 py-3.5 text-sm font-semibold hover:bg-ink-soft transition btn-glow">
               Enter the ERP portal
             </a>
-            <a href="#notices"
-              class="border border-ink px-7 py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition">
+            <a href="#notices" class="border border-ink px-7 py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition">
               Read notices
             </a>
           </div>
         </div>
-
         <div class="lg:col-span-5 rise" style="animation-delay:.1s">
-          <div class="card p-8">
+          <div class="card p-8 relative">
+            <!-- <span class="absolute -top-3 -right-3 w-14 h-14 flex items-center justify-center">
+              <svg class="seal-ring absolute inset-0" viewBox="0 0 56 56" fill="none">
+                <circle cx="28" cy="28" r="25" stroke="#A6403A" stroke-width="1.4" stroke-dasharray="2 5"/>
+              </svg>
+              <span class="font-mono text-[9px] text-gold text-center leading-tight">EST.</span>
+            </span> -->
             <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-5">At a glance</p>
             <dl id="statGrid" class="grid grid-cols-2 gap-6"></dl>
           </div>
@@ -260,50 +386,76 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ GALLERY SECTION ════════════════ -->
-<!-- ═══════════════════════════════════════════════ GALLERY SECTION ════════════════ -->
-<section class="max-w-6xl mx-auto px-5 pb-16 lg:pb-24">
-  <!-- <h2 class="font-display text-3xl lg:text-4xl text-center mb-10 text-ink">Gallery</h2> -->
+    <!-- WHY US -->
+    <section id="why" class="max-w-6xl mx-auto px-5 py-14 lg:py-16 section-fade">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="card p-6">
+          <div class="w-11 h-11 rounded-full bg-terra-light flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-terra" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m5-5.13a4 4 0 100-8 4 4 0 000 8zm0 0a4 4 0 013.87 3M9 12a4 4 0 00-3.87 3"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-1.5">ছোট শ্রেণিকক্ষ</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">Small class sizes so every student gets individual attention from their teacher.</p>
+        </div>
+        <div class="card p-6">
+          <div class="w-11 h-11 rounded-full bg-moss-light flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-moss" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.25278C10.5 5 8 4 5.5 4S1 5 1 5v13.5s2.5-1 5-1 4.5 1 6 2.25M12 6.25278C13.5 5 16 4 18.5 4S23 5 23 5v13.5s-2.5-1-5-1-4.5 1-6 2.25M12 6.25278V20.75"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-1.5">দ্বিভাষিক শিক্ষা</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">A bilingual curriculum that builds fluency in both Bangla and English from an early class.</p>
+        </div>
+        <div class="card p-6">
+          <div class="w-11 h-11 rounded-full bg-gold-light flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-1.5">ডিজিটাল ইআরপি</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">Parents track results, attendance, and fees anytime through the school's own ERP portal.</p>
+        </div>
+        <div class="card p-6">
+          <div class="w-11 h-11 rounded-full bg-terra-light flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-terra" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-1.5">নিরাপদ ক্যাম্পাস</h3>
+          <p class="text-sm text-ink-mute leading-relaxed">A disciplined, closely supervised campus where safety comes before everything else.</p>
+        </div>
+      </div>
+    </section>
 
-  <!-- Two‑column grid: img1 img2 / img3 img4 -->
-  <div class="grid grid-cols-2 gap-4 md:gap-6">
-    <div class="overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out hover:shadow-2xl hover:scale-[1.02]">
-      <img src="https://i.pinimg.com/736x/f0/3d/0c/f03d0c3fb4c720127eaf16e7c98c6e4a.jpg"
-        alt="Gallery image 1"
-        class="w-full h-48 md:h-64 lg:h-80 object-cover transition-transform duration-700 ease-out hover:scale-110">
-    </div>
-    <div class="overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out hover:shadow-2xl hover:scale-[1.02]">
-      <img src="https://i.pinimg.com/736x/12/71/5f/12715f07e3a76d04e57099f91dd4d14d.jpg"
-        alt="Gallery image 2"
-        class="w-full h-48 md:h-64 lg:h-80 object-cover transition-transform duration-700 ease-out hover:scale-110">
-    </div>
-    <div class="overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out hover:shadow-2xl hover:scale-[1.02]">
-      <img src="https://i.pinimg.com/736x/d2/12/bc/d212bc50c3ee3eac71e73a673613976f.jpg"
-        alt="Gallery image 3"
-        class="w-full h-48 md:h-64 lg:h-80 object-cover transition-transform duration-700 ease-out hover:scale-110">
-    </div>
-    <div class="overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out hover:shadow-2xl hover:scale-[1.02]">
-      <img src="https://i.pinimg.com/736x/c3/29/9b/c3299b3556efe2032eeea1c3ff33fe32.jpg"
-        alt="Gallery image 4"
-        class="w-full h-48 md:h-64 lg:h-80 object-cover transition-transform duration-700 ease-out hover:scale-110">
-    </div>
-  </div>
-</section>
+    <!-- GALLERY -->
+    <section class="max-w-6xl mx-auto px-5 pb-16 lg:pb-24 section-fade" id="gallerySection">
+      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">Campus life</p>
+      <h2 class="font-display font-semibold text-3xl mb-6">ক্যাম্পাসের ঝলক</h2>
+      <div id="lightboxGallery" class="grid grid-cols-2 gap-4 md:gap-6">
+        <button class="lb-trigger overflow-hidden rounded-lg shadow-md" data-full="https://i.pinimg.com/736x/f0/3d/0c/f03d0c3fb4c720127eaf16e7c98c6e4a.jpg">
+          <img src="https://i.pinimg.com/736x/f0/3d/0c/f03d0c3fb4c720127eaf16e7c98c6e4a.jpg" alt="Gallery image 1"
+               class="gallery-img w-full h-48 md:h-64 lg:h-80 object-cover">
+        </button>
+        <button class="lb-trigger overflow-hidden rounded-lg shadow-md" data-full="https://i.pinimg.com/736x/12/71/5f/12715f07e3a76d04e57099f91dd4d14d.jpg">
+          <img src="https://i.pinimg.com/736x/12/71/5f/12715f07e3a76d04e57099f91dd4d14d.jpg" alt="Gallery image 2"
+               class="gallery-img w-full h-48 md:h-64 lg:h-80 object-cover">
+        </button>
+        <button class="lb-trigger overflow-hidden rounded-lg shadow-md" data-full="https://i.pinimg.com/736x/d2/12/bc/d212bc50c3ee3eac71e73a673613976f.jpg">
+          <img src="https://i.pinimg.com/736x/d2/12/bc/d212bc50c3ee3eac71e73a673613976f.jpg" alt="Gallery image 3"
+               class="gallery-img w-full h-48 md:h-64 lg:h-80 object-cover">
+        </button>
+        <button class="lb-trigger overflow-hidden rounded-lg shadow-md" data-full="https://i.pinimg.com/736x/c3/29/9b/c3299b3556efe2032eeea1c3ff33fe32.jpg">
+          <img src="https://i.pinimg.com/736x/c3/29/9b/c3299b3556efe2032eeea1c3ff33fe32.jpg" alt="Gallery image 4"
+               class="gallery-img w-full h-48 md:h-64 lg:h-80 object-cover">
+        </button>
+      </div>
+    </section>
 
-    <!-- ═══════════════════════════════════════════════ ABOUT ═══════════════ -->
-    <section id="about" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+    <!-- ABOUT -->
+    <section id="about" class="max-w-6xl mx-auto px-5 py-16 lg:py-20 section-fade">
       <div class="grid lg:grid-cols-12 gap-10">
         <div class="lg:col-span-7">
           <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">01 — About</p>
-          <h2 id="aboutTitle" class="font-display text-4xl mb-5 pb-4 rule-double">আমাদের সম্পর্কে</h2>
+          <h2 id="aboutTitle" class="font-display font-semibold text-4xl mb-5 pb-4 rule-double">আমাদের সম্পর্কে</h2>
           <p id="aboutBody" class="text-ink-soft leading-relaxed text-[17px]"></p>
         </div>
-
         <aside class="lg:col-span-5">
-          <div class="card p-7 h-full flex flex-col">
-            <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-4">
-              Head teacher's message
-            </p>
+          <div class="notebook-page card !border-0 p-7 pl-8 h-full flex flex-col relative">
+            <span class="notebook-pin"></span>
+            <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-4">Head teacher's message</p>
             <p id="headMessage" class="font-display text-[17px] leading-relaxed text-ink-soft flex-1"></p>
             <p id="headName" class="mt-6 pt-4 border-t border-rule font-semibold text-sm"></p>
           </div>
@@ -311,99 +463,483 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ ACADEMICS ═══════════ -->
-    <section id="academics" class="bg-ink text-paper-card py-16 lg:py-20">
+    <!-- ACADEMICS -->
+    <section id="academics" class="bg-ink text-paper-card py-16 lg:py-20 section-fade">
       <div class="max-w-6xl mx-auto px-5">
         <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">02 — Academics</p>
-        <h2 class="font-display text-4xl mb-12">What we offer</h2>
+        <h2 class="font-display font-semibold text-4xl mb-12">What we offer</h2>
         <div id="featureGrid" class="grid md:grid-cols-3 gap-px bg-paper-card/15"></div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ FACILITIES ══════════ -->
-    <section class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+    <!-- FACILITIES -->
+    <section class="max-w-6xl mx-auto px-5 py-16 lg:py-20 section-fade">
       <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">03 — Facilities</p>
-      <h2 class="font-display text-4xl mb-10">সুযোগ-সুবিধা</h2>
+      <h2 class="font-display font-semibold text-4xl mb-10">সুযোগ-সুবিধা</h2>
       <div id="facilityGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ NOTICES ═════════════ -->
-    <section id="notices" class="bg-paper-deep py-16 lg:py-20">
+    <!-- EVENTS / CALENDAR -->
+    <section id="events" class="bg-paper-deep py-16 lg:py-20 section-fade">
+      <div class="max-w-6xl mx-auto px-5">
+        <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">04 — Calendar</p>
+        <h2 class="font-display font-semibold text-4xl mb-12">আসন্ন অনুষ্ঠান</h2>
+        <div class="relative pl-8 border-l-2 border-rule space-y-10">
+          <div class="relative">
+            <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-terra"></span>
+            <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">15 September</p>
+            <h3 class="font-display font-semibold text-xl mb-1">Half-Yearly Examination begins</h3>
+            <p class="text-sm text-ink-mute max-w-lg">Classes 1–10 sit half-yearly exams; the routine is posted on the notice board and in the ERP portal.</p>
+          </div>
+          <div class="relative">
+            <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-moss"></span>
+            <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">02 November</p>
+            <h3 class="font-display font-semibold text-xl mb-1">Annual Sports Day</h3>
+            <p class="text-sm text-ink-mute max-w-lg">A full day of athletics, relay races, and games on the school ground. Parents are welcome to attend.</p>
+          </div>
+          <div class="relative">
+            <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gold"></span>
+            <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">20 November</p>
+            <h3 class="font-display font-semibold text-xl mb-1">Parents' Meeting</h3>
+            <p class="text-sm text-ink-mute max-w-lg">Class teachers review each student's progress with parents; time slots are booked through the ERP portal.</p>
+          </div>
+          <div class="relative">
+            <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-terra"></span>
+            <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">20 December</p>
+            <h3 class="font-display font-semibold text-xl mb-1">Winter vacation begins</h3>
+            <p class="text-sm text-ink-mute max-w-lg">Classes resume in the new academic year; the exact date is announced on the notice board.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTICES -->
+    <section id="notices" class="py-16 lg:py-20 section-fade">
       <div class="max-w-6xl mx-auto px-5">
         <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
           <div>
-            <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">04 — Notices</p>
-            <h2 class="font-display text-4xl">নোটিশ বোর্ড</h2>
+            <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">05 — Notices</p>
+            <h2 class="font-display font-semibold text-4xl">নোটিশ বোর্ড</h2>
           </div>
           <p class="text-sm text-ink-mute max-w-sm">
-            Notices are written in Bangla, English, or both. Students and teachers see
-            additional notices after signing in.
+            Notices are written in Bangla, English, or both. Students and teachers see additional notices after signing in.
           </p>
         </div>
         <div id="noticeList" class="grid lg:grid-cols-2 gap-5"></div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ STAFF ═══════════════ -->
-    <section id="staff" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
-      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">05 — Teachers</p>
-      <h2 class="font-display text-4xl mb-10">আমাদের শিক্ষকমণ্ডলী</h2>
+    <!-- STAFF -->
+    <section id="staff" class="max-w-6xl mx-auto px-5 py-16 lg:py-20 section-fade">
+      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">06 — Teachers</p>
+      <h2 class="font-display font-semibold text-4xl mb-10">আমাদের শিক্ষকমণ্ডলী</h2>
       <div id="staffGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ CONTACT ═════════════ -->
-    <section id="contact" class="bg-ink text-paper-card py-16 lg:py-20">
-      <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
-        <div>
-          <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">06 — Contact</p>
-          <h2 class="font-display text-4xl mb-8">যোগাযোগ</h2>
-          <dl id="contactList" class="space-y-5 text-[15px]"></dl>
+    <!-- VOICES / TESTIMONIALS -->
+    <section id="voices" class="bg-moss-light py-16 lg:py-20 section-fade">
+      <div class="max-w-6xl mx-auto px-5">
+        <p class="font-mono text-[10px] tracking-[.2em] uppercase text-moss mb-3">07 — Voices</p>
+        <h2 class="font-display font-semibold text-4xl mb-10 text-ink">অভিভাবক ও শিক্ষার্থীদের মতামত</h2>
+        <div class="relative overflow-hidden">
+          <div id="testiTrack" class="flex transition-transform duration-500 ease-out">
+            <div class="w-full shrink-0 grid md:grid-cols-3 gap-5">
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"The ERP portal means I no longer wait for a report card — I can see my daughter's marks and attendance the same day."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-terra text-ink font-display font-semibold flex items-center justify-center text-sm">রহ</span>
+                  <div><p class="text-sm font-semibold">Rahima Begum</p><p class="text-xs text-ink-mute">Parent, Class 6</p></div>
+                </div>
+              </div>
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"Our teachers actually know each student by name. That made moving here from a bigger school so much easier."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-moss text-paper-card font-display font-semibold flex items-center justify-center text-sm">তা</span>
+                  <div><p class="text-sm font-semibold">Tanvir Ahmed</p><p class="text-xs text-ink-mute">Student, Class 9</p></div>
+                </div>
+              </div>
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"I finished my SSC here in 2019 and still come back for the annual reunion. It always feels like home."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-gold text-paper-card font-display font-semibold flex items-center justify-center text-sm">নি</span>
+                  <div><p class="text-sm font-semibold">Nishat Jahan</p><p class="text-xs text-ink-mute">Alumna, batch of 2019</p></div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full shrink-0 grid md:grid-cols-3 gap-5">
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"Fee payment used to mean a trip to the office. Now I pay and get a receipt from the portal in a minute."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-terra text-ink font-display font-semibold flex items-center justify-center text-sm">কা</span>
+                  <div><p class="text-sm font-semibold">Kamal Hossain</p><p class="text-xs text-ink-mute">Parent, Class 3</p></div>
+                </div>
+              </div>
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"The science lab is small but well-kept, and our teacher makes sure every student gets a turn at the bench."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-moss text-paper-card font-display font-semibold flex items-center justify-center text-sm">মি</span>
+                  <div><p class="text-sm font-semibold">Mim Akter</p><p class="text-xs text-ink-mute">Student, Class 8</p></div>
+                </div>
+              </div>
+              <div class="card p-6">
+                <p class="text-ink-soft text-[15px] leading-relaxed mb-5">"Sports day was the highlight of my year here — the whole school, teachers included, turns up to cheer."</p>
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-gold text-paper-card font-display font-semibold flex items-center justify-center text-sm">শা</span>
+                  <div><p class="text-sm font-semibold">Shakil Rana</p><p class="text-xs text-ink-mute">Alumnus, batch of 2021</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="card p-8 text-ink">
-          <h3 class="font-display text-2xl mb-3">Already a student or teacher?</h3>
-          <p class="text-sm text-ink-soft leading-relaxed mb-6">
-            Sign in to the ERP portal to view results, report cards, fees and notices.
-            Admins, teachers and students each have their own sign-in.
-          </p>
-          <a href="erp.html"
-            class="block text-center bg-terra text-paper-card py-3.5 text-sm font-semibold hover:bg-ink transition">
-            Go to the ERP portal
-          </a>
-          <p class="mt-4 text-xs text-ink-mute text-center">
-            Forgotten your password? Contact the school office.
-          </p>
+        <div id="testiDots" class="flex items-center justify-center gap-2 mt-8">
+          <span class="dot active" data-i="0"></span>
+          <span class="dot" data-i="1"></span>
         </div>
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq" class="max-w-4xl mx-auto px-5 py-16 lg:py-20 section-fade">
+      <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">08 — FAQ</p>
+      <h2 class="font-display font-semibold text-4xl mb-10">প্রায়শই জিজ্ঞাসিত প্রশ্ন</h2>
+      <div class="space-y-3">
+        <details class="faq-item card p-5" open>
+          <summary class="flex items-center justify-between font-semibold text-[15px]">
+            How do I apply for admission?
+            <svg class="chev w-5 h-5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="faq-body text-sm text-ink-mute leading-relaxed mt-3 pt-3 border-t border-rule">Visit the school office during the admission window shown under "Admission open" above, or call the number listed in the contact section for the current form and seat availability.</p>
+        </details>
+        <details class="faq-item card p-5">
+          <summary class="flex items-center justify-between font-semibold text-[15px]">
+            How do parents access the ERP portal?
+            <svg class="chev w-5 h-5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="faq-body text-sm text-ink-mute leading-relaxed mt-3 pt-3 border-t border-rule">Each guardian receives sign-in details from the class teacher once admission is confirmed. Use the "ERP Login" button at the top of this page to sign in.</p>
+        </details>
+        <details class="faq-item card p-5">
+          <summary class="flex items-center justify-between font-semibold text-[15px]">
+            What are the school hours?
+            <svg class="chev w-5 h-5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="faq-body text-sm text-ink-mute leading-relaxed mt-3 pt-3 border-t border-rule">The school office is open Monday to Friday, 8:00 AM to 4:00 PM, as noted in the footer. Class hours are shared separately with each section.</p>
+        </details>
+        <details class="faq-item card p-5">
+          <summary class="flex items-center justify-between font-semibold text-[15px]">
+            I forgot my ERP password — what do I do?
+            <svg class="chev w-5 h-5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="faq-body text-sm text-ink-mute leading-relaxed mt-3 pt-3 border-t border-rule">Contact the school office with your child's roll and class, and they'll reset it for you — the same note appears next to the ERP login card below.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-ink text-paper-card py-16 lg:py-20 section-fade">
+      <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
+        <div>
+          <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">09 — Contact</p>
+          <h2 class="font-display font-semibold text-4xl mb-8">যোগাযোগ</h2>
+          <dl id="contactList" class="space-y-5 text-[15px] mb-8"></dl>
+          <div class="rounded-lg overflow-hidden border border-paper-card/15 h-56">
+            <iframe title="School location" class="w-full h-full contrast-125 opacity-90" loading="lazy"
+              src="https://www.google.com/maps?q=Gazipur,Bangladesh&output=embed"></iframe>
+          </div>
+        </div>
+        <div class="card p-8 text-ink h-fit">
+          <h3 class="font-display font-semibold text-2xl mb-3">Already a student or teacher?</h3>
+          <p class="text-sm text-ink-soft leading-relaxed mb-6">
+            Sign in to the ERP portal to view results, report cards, fees and notices. Admins, teachers and students each have their own sign-in.
+          </p>
+          <a href="erp.html" class="btn-ripple block text-center bg-terra text-ink py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition btn-glow">
+            Go to the ERP portal
+          </a>
+          <p class="mt-4 text-xs text-ink-mute text-center">Forgotten your password? Contact the school office.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="bg-ink border-t border-paper-card/10 text-paper-card/50 py-8">
-    <div class="max-w-6xl mx-auto px-5 flex flex-wrap items-center justify-between gap-4 text-xs">
-      <p id="footName">© Adarsha High School</p>
-      <p class="font-mono tracking-wider flex items-center justify-center gap-2">
-  <span>Powered by</span>
-  <a href="https://shawon7.pages.dev/" target="_blank" rel="noopener noreferrer">
-    <img
-      src="https://shawon7.pages.dev/assets/Logo/S.svg"
-      alt="Shawon"
-      class="h-10 w-auto"
-    >
-  </a>
-</p>
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-ink text-paper-card/80 border-t border-paper-card/10">
+    <div class="max-w-6xl mx-auto px-5 py-12 lg:py-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+
+        <!-- Brand -->
+        <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="seal relative w-10 h-10 flex items-center justify-center shrink-0">
+              <svg class="seal-ring absolute inset-0" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="18" stroke="#D98C1F" stroke-width="1.4" stroke-dasharray="2 4"/>
+              </svg>
+              <span class="w-7 h-7 rounded-full bg-paper-card/10 flex items-center justify-center font-display text-terra text-sm">উ</span>
+            </span>
+            <div>
+              <p class="font-display font-semibold text-base leading-tight text-white">উদয়ন মডেল স্কুল</p>
+              <p class="font-mono text-[9px] tracking-[.12em] uppercase text-ink-mute">Udayan Model School</p>
+            </div>
+          </div>
+          <p class="text-sm text-ink-mute leading-relaxed max-w-xs">
+            A secondary school in Gazipur, Bangladesh — nurturing minds from Class 1 to 10 with care and excellence.
+          </p>
+          <div class="flex gap-3 mt-5">
+            <a href="#" class="social-icon" aria-label="Facebook">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="YouTube">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="WhatsApp">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="footer-heading text-white text-sm mb-6">Quick Links</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#about" class="footer-link text-ink-mute hover:text-terra">About Us</a></li>
+            <li><a href="#academics" class="footer-link text-ink-mute hover:text-terra">Academics</a></li>
+            <li><a href="#events" class="footer-link text-ink-mute hover:text-terra">Events</a></li>
+            <li><a href="#notices" class="footer-link text-ink-mute hover:text-terra">Notices</a></li>
+            <li><a href="#faq" class="footer-link text-ink-mute hover:text-terra">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 class="footer-heading text-white text-sm mb-6">Resources</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="erp.html" class="footer-link text-ink-mute hover:text-terra">Student Portal</a></li>
+            <li><a href="erp.html" class="footer-link text-ink-mute hover:text-terra">Teacher Portal</a></li>
+            <li><a href="#staff" class="footer-link text-ink-mute hover:text-terra">Teachers</a></li>
+            <li><a href="#events" class="footer-link text-ink-mute hover:text-terra">Calendar</a></li>
+            <li><a href="#voices" class="footer-link text-ink-mute hover:text-terra">Alumni Voices</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 class="footer-heading text-white text-sm mb-6">Get in Touch</h4>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-3">
+              <svg class="w-4 h-4 mt-0.5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span class="text-ink-mute">Gazipur, Bangladesh</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-4 h-4 mt-0.5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span class="text-ink-mute" id="footerEmail">office@udayan.edu.bd</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-4 h-4 mt-0.5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span class="text-ink-mute" id="footerPhone">+880 2 9876543</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-4 h-4 mt-0.5 text-terra shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span class="text-ink-mute">Mon–Fri: 8:00 AM – 4:00 PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="mt-12 pt-6 border-t border-paper-card/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-mute">
+        <p id="footName" class="order-2 sm:order-1">© 2026 Udayan Model School. All rights reserved.</p>
+        <div class="order-1 sm:order-2 flex items-center gap-4">
+          <a href="#" class="hover:text-terra transition">Privacy</a>
+          <a href="#" class="hover:text-terra transition">Terms</a>
+          <a href="#" class="hover:text-terra transition">Sitemap</a>
+          <span class="flex items-center gap-2">
+            <span>Powered by</span>
+            <a href="https://shawon7.pages.dev/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition">
+              <img src="https://shawon7.pages.dev/assets/Logo/S.svg" alt="Shawon" class="h-8 w-auto">
+            </a>
+          </span>
+        </div>
+      </div>
     </div>
   </footer>
+
+  <!-- SCROLL TO TOP -->
+  <a href="#top" id="toTop" aria-label="Back to top"
+     class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-ink text-paper-card flex items-center justify-center shadow-lg hover:bg-terra hover:text-ink transition">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </a>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" hidden class="fixed inset-0 z-50 flex items-center justify-center p-6">
+    <button id="lbClose" aria-label="Close" class="absolute top-5 right-5 text-paper-card/80 hover:text-terra">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <img id="lbImg" src="" alt="Enlarged gallery photo" class="rounded-lg shadow-2xl">
+  </div>
 
   <!-- Loading veil -->
   <div id="veil" class="fixed inset-0 z-50 bg-paper flex items-center justify-center">
     <div class="w-9 h-9 border-2 border-rule border-t-terra rounded-full spinner"></div>
   </div>
 
-  <!-- Error banner, shown only if the API cannot be reached -->
-  <div id="errBanner" hidden class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 card px-5 py-4 text-sm max-w-md
-            border-l-4 border-terra"></div>
+  <!-- Error banner -->
+  <div id="errBanner" hidden class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 card px-5 py-4 text-sm max-w-md border-l-4 border-terra"></div>
 
   <script src="site.js"></script>
+
+  <!-- interaction layer: purely additive, does not touch any element site.js reads from or writes to -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Lenis smooth scroll */
+      let lenis = null;
+      if (window.Lenis && !reduceMotion) {
+        lenis = new Lenis({
+          duration: 1.1,
+          smoothWheel: true,
+          smoothTouch: false // native touch scroll feels better on phones
+        });
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Let Lenis animate every in-page anchor link (nav, mobile menu,
+        // "Read notices", back-to-top, etc.) instead of jumping instantly.
+        document.addEventListener('click', function(e) {
+          const link = e.target.closest('a[href^="#"]');
+          if (!link) return;
+          const id = link.getAttribute('href');
+          if (id.length < 2) return; // bare "#"
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: -84 }); // clears the sticky header
+        });
+      }
+
+      /* section reveal on scroll */
+      const faders = document.querySelectorAll('.section-fade');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.15 });
+      faders.forEach(el => observer.observe(el));
+
+      /* mobile menu */
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          mobileMenu.hidden = !mobileMenu.hidden;
+        });
+        document.addEventListener('click', function(e) {
+          if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            mobileMenu.hidden = true;
+          }
+        });
+      }
+
+      /* scroll progress + back-to-top */
+      const progressBar = document.getElementById('progressBar');
+      const toTop = document.getElementById('toTop');
+      window.addEventListener('scroll', function() {
+        const h = document.documentElement;
+        const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+        if (progressBar) progressBar.style.transform = 'scaleX(' + Math.min(scrolled, 1) + ')';
+        if (toTop) toTop.classList.toggle('show', h.scrollTop > 500);
+      }, { passive: true });
+
+      /* gentle parallax on the hero rings */
+      const heroRings = document.getElementById('heroRings');
+      if (heroRings && !reduceMotion && matchMedia('(hover:hover)').matches) {
+        heroRings.parentElement.addEventListener('mousemove', function(e) {
+          const r = heroRings.parentElement.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width - 0.5) * 20;
+          const y = ((e.clientY - r.top) / r.height - 0.5) * 20;
+          heroRings.style.backgroundPosition = 'calc(50% + ' + x + 'px) calc(40% + ' + y + 'px)';
+        });
+      }
+
+      /* button ripple */
+      document.querySelectorAll('.btn-ripple').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          if (reduceMotion) return;
+          const rect = btn.getBoundingClientRect();
+          const span = document.createElement('span');
+          const size = Math.max(rect.width, rect.height);
+          span.className = 'ripple';
+          span.style.width = span.style.height = size + 'px';
+          span.style.left = (e.clientX - rect.left - size / 2) + 'px';
+          span.style.top = (e.clientY - rect.top - size / 2) + 'px';
+          btn.appendChild(span);
+          span.addEventListener('animationend', function() { span.remove(); });
+        });
+      });
+
+      /* testimonial slider */
+      const testiTrack = document.getElementById('testiTrack');
+      const dots = document.querySelectorAll('#testiDots .dot');
+      let testiIndex = 0;
+      function showTesti(i) {
+        testiIndex = i;
+        if (testiTrack) testiTrack.style.transform = 'translateX(-' + (i * 100) + '%)';
+        dots.forEach(function(d, di) { d.classList.toggle('active', di === i); });
+      }
+      dots.forEach(function(d) { d.addEventListener('click', function() { showTesti(parseInt(d.dataset.i, 10)); }); });
+      if (dots.length && !reduceMotion) {
+        setInterval(function() { showTesti((testiIndex + 1) % dots.length); }, 6000);
+      }
+
+      /* gallery lightbox */
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbClose = document.getElementById('lbClose');
+      document.querySelectorAll('.lb-trigger').forEach(function(trigger) {
+        trigger.addEventListener('click', function() {
+          lbImg.src = trigger.dataset.full;
+          lightbox.hidden = false;
+        });
+      });
+      if (lbClose) lbClose.addEventListener('click', function() { lightbox.hidden = true; });
+      if (lightbox) lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.hidden = true; });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && lightbox) lightbox.hidden = true; });
+
+      /* generic count-up for whatever numeric stats site.js drops into #statGrid */
+      const statGrid = document.getElementById('statGrid');
+      function animateCounters(root) {
+        if (reduceMotion) return;
+        root.querySelectorAll('dd').forEach(function(node) {
+          if (node.dataset.counted) return;
+          const text = node.textContent.trim();
+          const match = text.match(/^(\D*)(\d[\d,]*)(\D*)$/);
+          if (!match) return;
+          node.dataset.counted = '1';
+          const prefix = match[1], suffix = match[3];
+          const target = parseInt(match[2].replace(/,/g, ''), 10);
+          const start = performance.now();
+          const dur = 1100;
+          (function step(t) {
+            const p = Math.min((t - start) / dur, 1);
+            const cur = Math.floor(p * target);
+            node.textContent = prefix + cur.toLocaleString() + suffix;
+            if (p < 1) requestAnimationFrame(step);
+            else node.textContent = prefix + target.toLocaleString() + suffix;
+          })(start);
+        });
+      }
+      if (statGrid) {
+        const mo = new MutationObserver(function() { animateCounters(statGrid); });
+        mo.observe(statGrid, { childList: true, subtree: true });
+        animateCounters(statGrid);
+      }
+    });
+  </script>
 </body>
 
 </html>

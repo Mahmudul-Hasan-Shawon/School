@@ -227,10 +227,10 @@ function initials(name) {
 /* ------------------------------------------------------------------ wiring */
 
 document.addEventListener('DOMContentLoaded', () => {
-  $('#menuBtn').addEventListener('click', () => {
-    const m = $('#mobileMenu');
-    m.hidden = !m.hidden;
-  });
+  // Mobile menu open/close is handled entirely by the inline script in
+  // index.html (it also closes the menu on an outside click). A second
+  // listener here was toggling `hidden` a second time on every click,
+  // which cancelled the first toggle out and made the button look broken.
   $$('.mob').forEach(a => a.addEventListener('click', () => { $('#mobileMenu').hidden = true; }));
   fetchSite();
 });
