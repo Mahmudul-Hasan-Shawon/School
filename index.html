@@ -15,20 +15,16 @@
     rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            /* token NAMES kept identical to the original build (paper / ink / terra / moss / gold / rule)
-               so that any classes site.js injects at runtime (bg-terra, text-moss, border-gold, etc.)
-               keep working — only the hex values underneath have changed. */
             paper: { DEFAULT: '#FAF6EC', card: '#FFFFFF', deep: '#EFE4CE' },
             ink: { DEFAULT: '#16292B', soft: '#204648', mute: '#66797B' },
-            terra: { DEFAULT: '#D98C1F', light: '#F5E3BA' },   // marigold — primary accent
-            moss: { DEFAULT: '#1F6F5C', light: '#D3E8DF' },    // jade — secondary accent
-            gold: { DEFAULT: '#A6403A', light: '#EEDAD3' },    // kantha rust — tertiary accent
+            terra: { DEFAULT: '#D98C1F', light: '#F5E3BA' },
+            moss: { DEFAULT: '#1F6F5C', light: '#D3E8DF' },
+            gold: { DEFAULT: '#A6403A', light: '#EEDAD3' },
             rule: '#DED2B7'
           },
           fontFamily: {
@@ -44,7 +40,6 @@
   <style>
     body {
       background-color: #FAF6EC;
-      /* ruled exercise-book paper instead of the old noise texture — signature motif of the redesign */
       background-image:
         linear-gradient(rgba(22, 41, 43, .05) 1px, transparent 1px);
       background-size: 100% 30px;
@@ -54,10 +49,9 @@
       background: #FFFDF8;
       border: 1px solid #DED2B7;
       box-shadow: 0 2px 0 #EFE4CE, 0 12px 32px -18px rgba(22, 41, 43, .5);
-      transition: transform 0.25s cubic-bezier(.2,.8,.3,1), box-shadow 0.3s ease, border-color .3s ease;
+      transition: transform 0.25s cubic-bezier(.2, .8, .3, 1), box-shadow 0.3s ease, border-color .3s ease;
     }
     .card:hover {
-      transform: translateY(-3px);
       box-shadow: 0 10px 26px -12px rgba(22, 41, 43, .28);
       border-color: #D98C1F;
     }
@@ -67,19 +61,40 @@
     }
 
     @keyframes riseIn {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .rise {
       animation: riseIn 0.7s cubic-bezier(0.16, 0.8, 0.25, 1) both;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner { animation: spin .7s linear infinite; }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .spinner {
+      animation: spin .7s linear infinite;
+    }
 
-    @keyframes sealSpin { to { transform: rotate(360deg); } }
-    .seal-ring { animation: sealSpin 22s linear infinite; transform-origin: center; }
-    .seal:hover .seal-ring { animation-duration: 4s; }
+    @keyframes sealSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .seal-ring {
+      animation: sealSpin 22s linear infinite;
+      transform-origin: center;
+    }
+    .seal:hover .seal-ring {
+      animation-duration: 4s;
+    }
 
     .rings {
       background-image:
@@ -89,7 +104,9 @@
       transition: background-position .3s ease-out;
     }
 
-    .nav-link { position: relative; }
+    .nav-link {
+      position: relative;
+    }
     .nav-link::after {
       content: '';
       position: absolute;
@@ -100,7 +117,9 @@
       background: #D98C1F;
       transition: right .25s ease;
     }
-    .nav-link:hover::after { right: 0; }
+    .nav-link:hover::after {
+      right: 0;
+    }
 
     .notice-item {
       border-left: 3px solid #DED2B7;
@@ -112,26 +131,34 @@
       transform: translateX(4px);
     }
 
-    .marquee-track { animation: slide 42s linear infinite; }
-    @keyframes slide {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+    .marquee-track {
+      animation: slide 42s linear infinite;
     }
-    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes slide {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
 
-    [hidden] { display: none !important; }
-    /* Lenis drives smooth scrolling now; native smooth-scroll would fight it. */
-    html.lenis, html.lenis body { height: auto; }
-    .lenis.lenis-smooth { scroll-behavior: auto !important; }
-    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-    .lenis.lenis-stopped { overflow: hidden; }
+    [hidden] {
+      display: none !important;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
 
     .gallery-img {
       transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.3s;
     }
     .gallery-img:hover {
       transform: scale(1.03) translateY(-3px);
-      box-shadow: 0 16px 40px -12px rgba(22,41,43,0.25);
+      box-shadow: 0 16px 40px -12px rgba(22, 41, 43, 0.25);
     }
 
     .staff-card {
@@ -152,15 +179,28 @@
       box-shadow: 0 8px 24px -10px rgba(217, 140, 31, .18);
     }
 
-    .btn-glow { transition: all 0.2s; }
-
-    /* ripple micro-interaction for primary buttons */
-    .btn-ripple { position: relative; overflow: hidden; }
-    .btn-ripple span.ripple {
-      position: absolute; border-radius: 9999px; background: rgba(255,255,255,.5);
-      transform: scale(0); animation: rippleAnim .6s ease-out forwards; pointer-events: none;
+    .btn-glow {
+      transition: all 0.2s;
     }
-    @keyframes rippleAnim { to { transform: scale(3); opacity: 0; } }
+
+    .btn-ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-ripple span.ripple {
+      position: absolute;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, .5);
+      transform: scale(0);
+      animation: rippleAnim .6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
 
     .section-fade {
       opacity: 0;
@@ -172,42 +212,84 @@
       transform: translateY(0);
     }
 
-    /* notebook-page signature card (head teacher's message) */
+    /* notebook-page — pin now uses the Flaticon image */
     .notebook-page {
       position: relative;
       border-left: 3px solid #A6403A;
     }
     .notebook-pin {
-      position: absolute; top: -10px; right: 22px;
-      width: 22px; height: 22px; border-radius: 9999px;
-      background: #D98C1F; box-shadow: 0 3px 6px rgba(0,0,0,.25);
+      position: absolute;
+      top: -14px;
+      right: 22px;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      /* no background, just the image */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/10473/10473375.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .notebook-page:hover .notebook-pin {
+      transform: rotate(-12deg) scale(1.1);
+      filter: drop-shadow(0 4px 10px rgba(217, 140, 31, 0.4));
     }
 
-    /* FAQ accordion */
-    .faq-item[open] summary .chev { transform: rotate(180deg); }
-    .faq-item summary { list-style: none; cursor: pointer; }
-    .faq-item summary::-webkit-details-marker { display: none; }
-    .chev { transition: transform .25s ease; }
-    .faq-item[open] .faq-body { animation: riseIn .35s ease both; }
+    .faq-item[open] summary .chev {
+      transform: rotate(180deg);
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+    }
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+    .chev {
+      transition: transform .25s ease;
+    }
+    .faq-item[open] .faq-body {
+      animation: riseIn .35s ease both;
+    }
 
-    /* testimonial dots */
-    .dot { width: 8px; height: 8px; border-radius: 9999px; background: #DED2B7; transition: all .25s ease; cursor: pointer; }
-    .dot.active { background: #D98C1F; width: 22px; border-radius: 9999px; }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #DED2B7;
+      transition: all .25s ease;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #D98C1F;
+      width: 22px;
+      border-radius: 9999px;
+    }
 
-    /* scroll-to-top FAB */
     #toTop {
-      opacity: 0; pointer-events: none; transform: translateY(12px) scale(.9);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px) scale(.9);
       transition: opacity .25s ease, transform .25s ease;
     }
-    #toTop.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+    #toTop.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
 
-    /* scroll progress bar */
-    #progressBar { transform: scaleX(0); transform-origin: left; transition: transform .08s linear; }
+    #progressBar {
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .08s linear;
+    }
 
-    /* timeline */
-    .tl-dot { box-shadow: 0 0 0 4px #FAF6EC; }
+    .tl-dot {
+      box-shadow: 0 0 0 4px #FAF6EC;
+    }
 
-    /* footer extra style */
     .footer-link {
       transition: color 0.2s, transform 0.15s;
       display: inline-block;
@@ -225,7 +307,7 @@
       height: 36px;
       border-radius: 9999px;
       background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .social-icon:hover {
       background: #D98C1F;
@@ -250,12 +332,34 @@
       border-radius: 2px;
     }
 
-    /* lightbox */
-    #lightbox { background: rgba(22,41,43,.92); }
-    #lightbox img { max-height: 82vh; }
+    #lightbox {
+      background: rgba(22, 41, 43, .92);
+    }
+    #lightbox img {
+      max-height: 82vh;
+    }
+
+    /* floating particles background */
+    .particle {
+      position: absolute;
+      border-radius: 9999px;
+      pointer-events: none;
+      opacity: 0.12;
+      animation: floatParticle 18s infinite alternate ease-in-out;
+    }
+    @keyframes floatParticle {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(40px, -60px) scale(1.4);
+      }
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
@@ -353,6 +457,13 @@
     <!-- HERO -->
     <section class="relative overflow-hidden">
       <div id="heroRings" class="absolute inset-0 rings opacity-70" style="background-position:center 40%; background-repeat:no-repeat;"></div>
+      <!-- floating particles -->
+      <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <span class="particle w-6 h-6 bg-terra" style="top:10%;left:5%;animation-delay:-2s;"></span>
+        <span class="particle w-4 h-4 bg-moss" style="top:20%;right:8%;animation-delay:-5s;"></span>
+        <span class="particle w-5 h-5 bg-gold" style="bottom:30%;left:12%;animation-delay:-9s;"></span>
+        <span class="particle w-3 h-3 bg-terra" style="bottom:15%;right:15%;animation-delay:-3s;"></span>
+      </div>
       <div class="relative max-w-6xl mx-auto px-5 py-16 lg:py-24 grid lg:grid-cols-12 gap-10 items-center">
         <div class="lg:col-span-7 rise">
           <p id="heroAdmission" hidden class="inline-flex items-center gap-2 bg-moss-light text-moss px-3 py-1.5 mb-6
@@ -373,12 +484,6 @@
         </div>
         <div class="lg:col-span-5 rise" style="animation-delay:.1s">
           <div class="card p-8 relative">
-            <!-- <span class="absolute -top-3 -right-3 w-14 h-14 flex items-center justify-center">
-              <svg class="seal-ring absolute inset-0" viewBox="0 0 56 56" fill="none">
-                <circle cx="28" cy="28" r="25" stroke="#A6403A" stroke-width="1.4" stroke-dasharray="2 5"/>
-              </svg>
-              <span class="font-mono text-[9px] text-gold text-center leading-tight">EST.</span>
-            </span> -->
             <p class="font-mono text-[10px] tracking-[.18em] uppercase text-ink-mute mb-5">At a glance</p>
             <dl id="statGrid" class="grid grid-cols-2 gap-6"></dl>
           </div>
@@ -394,28 +499,28 @@
             <svg class="w-5 h-5 text-terra" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m5-5.13a4 4 0 100-8 4 4 0 000 8zm0 0a4 4 0 013.87 3M9 12a4 4 0 00-3.87 3"/></svg>
           </div>
           <h3 class="font-display font-semibold text-lg mb-1.5">ছোট শ্রেণিকক্ষ</h3>
-          <p class="text-sm text-ink-mute leading-relaxed">Small class sizes so every student gets individual attention from their teacher.</p>
+          <p class="text-sm text-ink-mute leading-relaxed">Small class sizes so every student gets individual attention.</p>
         </div>
         <div class="card p-6">
           <div class="w-11 h-11 rounded-full bg-moss-light flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-moss" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.25278C10.5 5 8 4 5.5 4S1 5 1 5v13.5s2.5-1 5-1 4.5 1 6 2.25M12 6.25278C13.5 5 16 4 18.5 4S23 5 23 5v13.5s-2.5-1-5-1-4.5 1-6 2.25M12 6.25278V20.75"/></svg>
           </div>
           <h3 class="font-display font-semibold text-lg mb-1.5">দ্বিভাষিক শিক্ষা</h3>
-          <p class="text-sm text-ink-mute leading-relaxed">A bilingual curriculum that builds fluency in both Bangla and English from an early class.</p>
+          <p class="text-sm text-ink-mute leading-relaxed">Bilingual curriculum building fluency in Bangla and English.</p>
         </div>
         <div class="card p-6">
           <div class="w-11 h-11 rounded-full bg-gold-light flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
           </div>
           <h3 class="font-display font-semibold text-lg mb-1.5">ডিজিটাল ইআরপি</h3>
-          <p class="text-sm text-ink-mute leading-relaxed">Parents track results, attendance, and fees anytime through the school's own ERP portal.</p>
+          <p class="text-sm text-ink-mute leading-relaxed">Parents track results, attendance, and fees anytime via ERP.</p>
         </div>
         <div class="card p-6">
           <div class="w-11 h-11 rounded-full bg-terra-light flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-terra" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
           </div>
           <h3 class="font-display font-semibold text-lg mb-1.5">নিরাপদ ক্যাম্পাস</h3>
-          <p class="text-sm text-ink-mute leading-relaxed">A disciplined, closely supervised campus where safety comes before everything else.</p>
+          <p class="text-sm text-ink-mute leading-relaxed">A disciplined, closely supervised campus where safety comes first.</p>
         </div>
       </div>
     </section>
@@ -489,25 +594,25 @@
             <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-terra"></span>
             <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">15 September</p>
             <h3 class="font-display font-semibold text-xl mb-1">Half-Yearly Examination begins</h3>
-            <p class="text-sm text-ink-mute max-w-lg">Classes 1–10 sit half-yearly exams; the routine is posted on the notice board and in the ERP portal.</p>
+            <p class="text-sm text-ink-mute max-w-lg">Classes 1–10 sit half-yearly exams; routine posted on notice board and ERP.</p>
           </div>
           <div class="relative">
             <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-moss"></span>
             <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">02 November</p>
             <h3 class="font-display font-semibold text-xl mb-1">Annual Sports Day</h3>
-            <p class="text-sm text-ink-mute max-w-lg">A full day of athletics, relay races, and games on the school ground. Parents are welcome to attend.</p>
+            <p class="text-sm text-ink-mute max-w-lg">Full day of athletics, relay races, and games. Parents welcome.</p>
           </div>
           <div class="relative">
             <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gold"></span>
             <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">20 November</p>
             <h3 class="font-display font-semibold text-xl mb-1">Parents' Meeting</h3>
-            <p class="text-sm text-ink-mute max-w-lg">Class teachers review each student's progress with parents; time slots are booked through the ERP portal.</p>
+            <p class="text-sm text-ink-mute max-w-lg">Class teachers review progress; time slots booked through ERP.</p>
           </div>
           <div class="relative">
             <span class="tl-dot absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-terra"></span>
             <p class="font-mono text-xs text-ink-mute uppercase tracking-wider mb-1">20 December</p>
             <h3 class="font-display font-semibold text-xl mb-1">Winter vacation begins</h3>
-            <p class="text-sm text-ink-mute max-w-lg">Classes resume in the new academic year; the exact date is announced on the notice board.</p>
+            <p class="text-sm text-ink-mute max-w-lg">Classes resume in the new academic year; date announced on notice board.</p>
           </div>
         </div>
       </div>
@@ -521,9 +626,7 @@
             <p class="font-mono text-[10px] tracking-[.2em] uppercase text-terra mb-3">05 — Notices</p>
             <h2 class="font-display font-semibold text-4xl">নোটিশ বোর্ড</h2>
           </div>
-          <p class="text-sm text-ink-mute max-w-sm">
-            Notices are written in Bangla, English, or both. Students and teachers see additional notices after signing in.
-          </p>
+          <p class="text-sm text-ink-mute max-w-sm">Notices in Bangla, English, or both. Students and teachers see additional notices after signing in.</p>
         </div>
         <div id="noticeList" class="grid lg:grid-cols-2 gap-5"></div>
       </div>
@@ -536,7 +639,7 @@
       <div id="staffGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
     </section>
 
-    <!-- VOICES / TESTIMONIALS -->
+     <!-- VOICES / TESTIMONIALS -->
     <section id="voices" class="bg-moss-light py-16 lg:py-20 section-fade">
       <div class="max-w-6xl mx-auto px-5">
         <p class="font-mono text-[10px] tracking-[.2em] uppercase text-moss mb-3">07 — Voices</p>
@@ -648,9 +751,7 @@
         </div>
         <div class="card p-8 text-ink h-fit">
           <h3 class="font-display font-semibold text-2xl mb-3">Already a student or teacher?</h3>
-          <p class="text-sm text-ink-soft leading-relaxed mb-6">
-            Sign in to the ERP portal to view results, report cards, fees and notices. Admins, teachers and students each have their own sign-in.
-          </p>
+          <p class="text-sm text-ink-soft leading-relaxed mb-6">Sign in to the ERP portal to view results, report cards, fees and notices. Admins, teachers and students each have their own sign-in.</p>
           <a href="erp.html" class="btn-ripple block text-center bg-terra text-ink py-3.5 text-sm font-semibold hover:bg-ink hover:text-paper-card transition btn-glow">
             Go to the ERP portal
           </a>
@@ -660,7 +761,7 @@
     </section>
   </main>
 
-  <!-- ========== FOOTER ========== -->
+  <!-- FOOTER -->
   <footer class="bg-ink text-paper-card/80 border-t border-paper-card/10">
     <div class="max-w-6xl mx-auto px-5 py-12 lg:py-16">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
@@ -679,9 +780,7 @@
               <p class="font-mono text-[9px] tracking-[.12em] uppercase text-ink-mute">Udayan Model School</p>
             </div>
           </div>
-          <p class="text-sm text-ink-mute leading-relaxed max-w-xs">
-            A secondary school in Gazipur, Bangladesh — nurturing minds from Class 1 to 10 with care and excellence.
-          </p>
+          <p class="text-sm text-ink-mute leading-relaxed max-w-xs">A secondary school in Gazipur, Bangladesh — nurturing minds from Class 1 to 10 with care and excellence.</p>
           <div class="flex gap-3 mt-5">
             <a href="#" class="social-icon" aria-label="Facebook">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -788,40 +887,11 @@
 
   <script src="site.js"></script>
 
-  <!-- interaction layer: purely additive, does not touch any element site.js reads from or writes to -->
+  <!-- interaction layer -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      /* Lenis smooth scroll */
-      let lenis = null;
-      if (window.Lenis && !reduceMotion) {
-        lenis = new Lenis({
-          duration: 1.1,
-          smoothWheel: true,
-          smoothTouch: false // native touch scroll feels better on phones
-        });
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Let Lenis animate every in-page anchor link (nav, mobile menu,
-        // "Read notices", back-to-top, etc.) instead of jumping instantly.
-        document.addEventListener('click', function(e) {
-          const link = e.target.closest('a[href^="#"]');
-          if (!link) return;
-          const id = link.getAttribute('href');
-          if (id.length < 2) return; // bare "#"
-          const target = document.querySelector(id);
-          if (!target) return;
-          e.preventDefault();
-          lenis.scrollTo(target, { offset: -84 }); // clears the sticky header
-        });
-      }
-
-      /* section reveal on scroll */
       const faders = document.querySelectorAll('.section-fade');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -830,7 +900,6 @@
       }, { threshold: 0.15 });
       faders.forEach(el => observer.observe(el));
 
-      /* mobile menu */
       const menuBtn = document.getElementById('menuBtn');
       const mobileMenu = document.getElementById('mobileMenu');
       if (menuBtn && mobileMenu) {
@@ -845,7 +914,6 @@
         });
       }
 
-      /* scroll progress + back-to-top */
       const progressBar = document.getElementById('progressBar');
       const toTop = document.getElementById('toTop');
       window.addEventListener('scroll', function() {
@@ -855,7 +923,6 @@
         if (toTop) toTop.classList.toggle('show', h.scrollTop > 500);
       }, { passive: true });
 
-      /* gentle parallax on the hero rings */
       const heroRings = document.getElementById('heroRings');
       if (heroRings && !reduceMotion && matchMedia('(hover:hover)').matches) {
         heroRings.parentElement.addEventListener('mousemove', function(e) {
@@ -866,7 +933,6 @@
         });
       }
 
-      /* button ripple */
       document.querySelectorAll('.btn-ripple').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           if (reduceMotion) return;
@@ -882,21 +948,22 @@
         });
       });
 
-      /* testimonial slider */
       const testiTrack = document.getElementById('testiTrack');
       const dots = document.querySelectorAll('#testiDots .dot');
       let testiIndex = 0;
+
       function showTesti(i) {
         testiIndex = i;
         if (testiTrack) testiTrack.style.transform = 'translateX(-' + (i * 100) + '%)';
         dots.forEach(function(d, di) { d.classList.toggle('active', di === i); });
       }
-      dots.forEach(function(d) { d.addEventListener('click', function() { showTesti(parseInt(d.dataset.i, 10)); }); });
+      dots.forEach(function(d) {
+        d.addEventListener('click', function() { showTesti(parseInt(d.dataset.i, 10)); });
+      });
       if (dots.length && !reduceMotion) {
         setInterval(function() { showTesti((testiIndex + 1) % dots.length); }, 6000);
       }
 
-      /* gallery lightbox */
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lbImg');
       const lbClose = document.getElementById('lbClose');
@@ -910,8 +977,8 @@
       if (lightbox) lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.hidden = true; });
       document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && lightbox) lightbox.hidden = true; });
 
-      /* generic count-up for whatever numeric stats site.js drops into #statGrid */
       const statGrid = document.getElementById('statGrid');
+
       function animateCounters(root) {
         if (reduceMotion) return;
         root.querySelectorAll('dd').forEach(function(node) {
@@ -920,10 +987,12 @@
           const match = text.match(/^(\D*)(\d[\d,]*)(\D*)$/);
           if (!match) return;
           node.dataset.counted = '1';
-          const prefix = match[1], suffix = match[3];
+          const prefix = match[1],
+            suffix = match[3];
           const target = parseInt(match[2].replace(/,/g, ''), 10);
           const start = performance.now();
           const dur = 1100;
+
           (function step(t) {
             const p = Math.min((t - start) / dur, 1);
             const cur = Math.floor(p * target);
