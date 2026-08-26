@@ -113,12 +113,12 @@ function render(d) {
   $('#heroMotto').textContent = school.MottoBangla || school.MottoEnglish || '';
   $('#heroAdmission').hidden = !d.admissionOpen;
 
-  // ---- stats
-  $('#statGrid').innerHTML = (content.Stat || []).map(s => `
-    <div>
-      <dt class="font-display text-4xl text-terra leading-none">${esc(s.Title)}</dt>
-      <dd class="mt-1.5 text-xs text-ink-mute">${esc(s.Body)}</dd>
-    </div>`).join('');
+// ---- stats
+$('#statGrid').innerHTML = (content.Stat || []).map(s => `
+  <div>
+    <dt class="font-roboto font-bold text-4xl text-terra leading-none">${esc(s.Title)}</dt>
+    <dd class="mt-1.5 text-xs text-ink-mute">${esc(s.Body)}</dd>
+  </div>`).join('');
 
   // ---- about
   const about = (content.About || [])[0] || {};
